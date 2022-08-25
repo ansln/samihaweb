@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    --background-color: #181820;
+    --navbar-color: #111117;
+    --primarytext-color: #FFFFFF;
+    --secondarytext-color: #FFB648;
+    --card-color: #21212B;
+    font-family: 'Inter', sans-serif;
+}
+nav{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    position: sticky;
+    width: 100%;
+    background-color: var(--navbar-color);
+    height: 60px;
+    z-index: 999;
+    /* box-shadow: 0 4px 6px 0 rgba(49,53,59,0.12); */
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.07);
+    gap: 10px;
+    color: var(--primarytext-color);
+}
+
+/* LOGO AND CATEGORY */
+nav .left{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+.left .top_logo{
+    display: flex;
+    width: 100px;
+    height: 37.6px;
+    margin-left: 10px;
+}
+.top_logo img{
+    width: 100%;
+    object-fit: cover;
+}
+nav .left a{
+    transition: 0.2s;
+    color: var(--secondarytext-color);
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+}
+nav a:hover{
+    transition: 0.1s;
+    opacity: 80%;
+}
+
+/* SEARCH */
+.center{
+    width: 1300px;
+    display: flex;
+    justify-content: center;
+}
+.searchbox{
+    width: 100%;
+    height: 30px;
+    display: grid;
+}
+.searchbox input{
+    border: 1px solid var(--card-color);
+    background-color: #1F1F27;
+    outline: none;
+    border-radius: 5px 0px 0px 5px;
+    color: white;
+    padding: 5px 5px 5px 12px;
+}
+.searchbtn{
+    transition: 0.3s;
+    display: flex;
+    width: 32px;
+    background-color: var(--card-color);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0px 5px 5px 0px;
+}
+.searchbtn button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.searchbtn:hover{
+    transition: 0.2s;
+    /* background-color: #2b2b40; */
+    background-color: #2c2c39;
+}
+::placeholder {
+    color: #FFB648;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+/* ALL BUTTON */
+.right{
+    display: flex;
+    text-align: right;
+    align-items: center;
+    margin-right: 10px;
+}
+.right b{
+    font-weight: 500;
+    margin-right: 15px;
+}
+.logreg-btn{
+    display: flex;
+    gap: 10px;
+}
+.logreg-btn .login-btn{
+    cursor: pointer;
+    width: 74px;
+    height: 28px;
+    color: var(--primarytext-color);
+    background-color: transparent;
+    border: 1px solid #1F1F27;
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.logreg-btn .reg-btn{
+    cursor: pointer;
+    width: 74px;
+    height: 28px;
+    color: var(--primarytext-color);
+    background-color: #1F1F27;
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
+    font-weight: 600;
+    font-size: 12px;
+}
+.right img{
+    display: flex;
+}
+.ico-row-before{
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 0;
+    margin-right: 25px;
+    border-right: 1px solid var(--primarytext-color);
+}
+.ico-row-before img{
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    margin: 0 5px 0 5px;
+}
+.ico-row{
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 0;
+    border-right: 1px solid #EEEEEE;
+}
+.ico-row img{
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    margin: 0 5px 0 5px;
+}
+.ico-user img{
+    width: 32px;
+    height: 32px;
+    border-radius: 150px;
+    object-fit: cover;
+    margin: 0 5px 0 5px;
+}
+.right span{
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--primarytext-color);
+}
+.right span b{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primarytext-color);
+}
+.profilePict{
+    padding: 5px;
+    margin: 0 0 0 25px;
+    border-radius: 5px;
+    background-color: #1F1F27;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profilePict, span:hover{
+    transition: 0.3s;
+    opacity: 100%;
+    background-color: var(--background-color);
+}
