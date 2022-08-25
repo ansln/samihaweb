@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            font-family: Inter, sans-serif;
+            outline: none;
+        }
+        .ct-404{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .ct-404 a{
+            text-decoration: none;
+        }
+        .ct-404 img{
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+        h4{
+            font-size: 50px;
+            font-weight: 400;
+            color: #1B1C1E;
+        }
+        b{
+            color: #1B1C1E;
+            font-weight: 300;
+        }
+        .ct-404 button{
+            transition: 0.2s;
+            width: 150px;
+            height: 30px;
+            background-color: #E5CB9F;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .ct-404 button:hover{
+            transition: 0.3s;
+            background-color: #DAB88B;
+        }
+    </style>
+</head>
+<body>
+    <div class="ct-404">
+        <img src="/shop/assets/img/404.gif">
+        <h4>Oops!</h4>
+        <b>That page doesn't exist or is unavailable, You will redirecting after <span id="countdown">10</span> seconds</b>
+        <a href="/shop"><button>Back</button></a>
+    </div>
+<script type="text/javascript">
+
+    // Total seconds to wait
+    var seconds = 10;
+    
+    function countdown() {
+        seconds = seconds - 1;
+        if (seconds < 0) {
+            // Chnage your redirection link here
+            window.location = "/shop";
+        } else {
+            // Update remaining seconds
+            document.getElementById("countdown").innerHTML = seconds;
+            // Count down using javascript
+            window.setTimeout("countdown()", 1000);
+        }
+    }
+    
+    // Run countdown function
+    countdown();
+    
+</script>
+</body>
+</html>
