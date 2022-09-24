@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    --background-color: #181820;
+    --navbar-color: #111117;
+    --primarytext-color: #FFFFFF;
+    --secondarytext-color: #FFB648;
+    --card-color: #21212B;
+    font-family: 'Inter', sans-serif;
+}
+.province{
+    margin: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.city{
+    margin: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+.city select, option{
+    width: 100%;
+}
