@@ -1,0 +1,6 @@
+1. klik button checkout
+2. [
+	- mengisi alamat
+	- pilih jasa pengiriman
+]
+3. pilih pembayaran -> midtrans

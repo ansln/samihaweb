@@ -1,0 +1,41 @@
+- pilih barang
+
+- klik cart
+
+- checkout -> (mengisi data alamat dsb)
+
+- proceed to checkout	->	(data yang diisi user serta pemilihan metode pembayaran)
+
+- invoice[GET]		->	product name: Kurma Lokal
+				product price: 200.000
+				qty: 2
+		
+				order id: SD-OD001
+				metode pembayaran: QRIS
+				total harga: 400.000
+
+				full name: Antonius Leonardo
+				email: le@a.c
+				phone: 08138695199
+
+- midtrans [POST]	->	order id: SD-OD001
+				transaction id: 0d8178e1-c6c7-4ab4-81a6-893be9d924ab
+				total harga: 400.000
+				transaction time: 2020-09-29 11:46:13
+				transaction_status: pending
+				QR CODE QRIS
+
+- (jika sudah terbayar)	->	transaction_time: 2020-09-29 11:46:13
+  				transaction status: settlement
+  				transaction_id: 9f07920a-6145-4d1e-9fc2-66e6fd6bc6fc
+				status_message: Pembayaran berhasil
+				settlement_time: 2020-09-29 11:50:44
+				order id: SD-OD001
+				metode pembayaran: QRIS GOPAY
+			
+			
+
+
+		
+		
+		
