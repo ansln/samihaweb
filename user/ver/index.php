@@ -1,29 +1,21 @@
 <?php
+
+require_once '../../auth/conn.php';
+require_once '../../auth/comp/vendor/autoload.php';
+require_once '../../auth/session.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-include('PHPMailer/src/Exception.php');
-include('PHPMailer/src/PHPMailer.php');
-include('PHPMailer/src/SMTP.php');
+$session = new userSession;
 
-require_once '../conn.php';
-
-//error message
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-session_start();
-
-    if($_SESSION['status']!="login"){
-        header("location: /shop/login.php?err=login");
-    }if($_SESSION['status']=="login"){
+    if ($_COOKIE['SMHSESS']) {
 
         ?><body><div class="bck-btn"><button><a href="/shop/user">back</a></button></div><?php
 
-        $emailVal = $db->real_escape_string($_SESSION['email']);
-        $data = $db->query("SELECT * FROM user WHERE u_email='$emailVal'");
+        $email = $session->generateEmail();
+        $data = $db->query("SELECT * FROM user WHERE u_email='$email' OR u_phone = '$email'");
 
         if($data->num_rows){ // -> fetch user data
             while($tst = $data->fetch_object()){
@@ -88,10 +80,9 @@ session_start();
             }
         }
 // NEXT PAGE IF CODE SUCCESS SEND
-        if(isset($_SESSION['email'])){ 
-            $uData = $db->real_escape_string($_SESSION['email']);
-            $uDataP = $db->real_escape_string($_SESSION['phone']);
-            $u_fetch = $db->query("SELECT * FROM user WHERE u_email = '$uData' OR u_phone = '$uDataP'");
+        if ($_COOKIE['SMHSESS'] != "") {
+
+            $u_fetch = $db->query("SELECT * FROM user WHERE u_email = '$email' OR u_phone = '$email'");
 
             if($u_fetch->num_rows){ // -> fetch data
                 while($f = $u_fetch->fetch_object()){

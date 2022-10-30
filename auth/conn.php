@@ -1,7 +1,6 @@
 <?php
 
 error_reporting(0);
-
 $db = new mysqli("localhost","root","","shop");
 
 if (!($st = $db->prepare("SELECT * FROM user WHERE id = ?"))) {

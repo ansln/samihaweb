@@ -1,8 +1,16 @@
+<?php
+
+include "../auth/functions/profileFunctions.php";
+
+$getHome = new homeManagement;
+$dbElement = $getHome->getElement("samiha-logo");
+
+if($dbElement->num_rows){
+    while($dashboard = $dbElement->fetch_object()){
+        ?>
 <nav>
     <div class="left">
-        <div class="top_logo">
-        <a href="../"><img src="../assets/img/logo/logo2.png"></a>
-        </div>
+        <div class="top_logo"><a href="../"><img src="<?= $dashboard->url ?>"></a></div>
         <a href="">Kategori</a>
     </div>
 
@@ -28,7 +36,7 @@
                         if (!$userPict == "") { // check if user has profile pict or not
                             ?><img src="<?= $userPict ?>"><?php
                         }else{
-                            ?><img src="../assets/img/user.png"><?php
+                            ?><img src="../assets/etc/default.png"><?php
                         }
                     ?>
             </div>
@@ -36,3 +44,6 @@
         </div></a>
     </div>
 </nav>
+        <?php
+    }
+}

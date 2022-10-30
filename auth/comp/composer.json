@@ -1,0 +1,7 @@
+{
+    "require": {
+        "firebase/php-jwt": "^6.3",
+        "imagekit/imagekit": "^3.0",
+        "phpmailer/phpmailer": "^6.6"
+    }
+}

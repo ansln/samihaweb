@@ -1,11 +1,13 @@
 <?php
 
-session_start();
 require_once 'conn.php';
-require_once '../auth/functions/index.php';
-error_reporting(0);
+// require_once '../auth/functions/index.php';
+require_once '../auth/comp/vendor/autoload.php';
+require_once '../auth/session.php';
 
-if ($_SESSION['status'] != "login") {
+$get = new userSession;
+
+if ($_COOKIE['SMHSESS'] == "") {
     header("location: ../");
 }else{
 ?>
@@ -16,22 +18,25 @@ if ($_SESSION['status'] != "login") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samiha - Address</title>
-    <link rel="stylesheet" href="../style/address.css"><link rel="stylesheet" href="../layout/nav.css">
-    <script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../style/address.css"><link rel="stylesheet" href="../layout/nav.css"><link rel="stylesheet" href="../style/cssImages.css"><link rel="stylesheet" href="../style/addressFetch.css"><link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="../js/jquery-3.6.0.min.js"></script><script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script><script src="../js/loading.js"></script>
 </head>
 <body>
-    <?php
-        
-    $uData = $db->real_escape_string($_SESSION['email']);
-    $uDataP = $db->real_escape_string($_SESSION['phone']);
+    <div class="loader-container">
+        <span class="loader"></span>
+    </div>
 
-    $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$uData' OR u_phone = '$uDataP'");
+    <?php
+    $email = $get->generateEmail();
+
+    $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$email' OR u_phone = '$email'");
     
-    if($userQuery->num_rows){ // -> fetch data
+    if($userQuery->num_rows){
         while($u_fetch = $userQuery->fetch_object()){
             include '../layout/navprofile.php';
             $userId = $u_fetch->id;
-            $userAddressQuery = $db->query("SELECT * FROM user_address WHERE userId = $userId");
+            $userAddressQuery = $db->query("SELECT * FROM user_address WHERE userId = $userId ORDER BY addressPrimary DESC");
+            $checkUserAddress = mysqli_num_rows($userAddressQuery);
             ?>
                     <div class="address-container-topBox">
                         <div class="wrapper-box">
@@ -44,26 +49,27 @@ if ($_SESSION['status'] != "login") {
                                 </div>
                             </div>
             <?php
-                            if($userAddressQuery->num_rows){ // -> fetch data
-                                while($uAd = $userAddressQuery->fetch_object()){                                 
+            if ($checkUserAddress < 0) {
+                ?><p>Kamu tidak memiliki alamat</p><?php
+            }
+                            if($userAddressQuery->num_rows){
+                                while($uAd = $userAddressQuery->fetch_object()){
                 
                                     //FETCH USER ADDRESS DETAIL
                                     $useraddressLabel = $uAd->u_addressLabel;
                                     $userRecipient = $uAd->u_recName;
                                     $userPhone = $uAd->u_phone;
-                                    $userProvinceName = $uAd->u_provinceName;
-                                    $userCityName = $uAd->u_cityName;
-                                    $userDisctrictName = $uAd->u_disctrict;
                                     $userPostalCode = $uAd->u_postalCode;
+                                    $userAddressMix = $uAd->u_addressMix;
                                     $userFullAddress = $uAd->u_completeAddress;
                                     $userAddresStatus = $uAd->u_defaultAddress;
-
+                                    
                                     if ($userAddresStatus == 0) { //CHECK IF DEFAULT ADDRES OR NOT
                                         ?><div class="address-card-box2"><?php
                                     }else{
                                         ?><div class="address-card-box"><?php
                                     }
-                                    ?>
+            ?>
                                 <div class="wrapper-box-left">
                                     <div class="top-box">
                                         <h3>Alamat <?= $useraddressLabel ?></h3>
@@ -71,8 +77,8 @@ if ($_SESSION['status'] != "login") {
                                     </div>
                                     <div class="mid-box">
                                         <p><?= $userPhone ?></p>
-                                        <p><?= $userFullAddress . ", " . $userDisctrictName . ", " . $userPostalCode ?></p>
-                                        <b><?= $userProvinceName . ", " . $userCityName ?></b>
+                                        <p><?= $userFullAddress . ", " . $userPostalCode ?></p>
+                                        <b><?= $userAddressMix ?></b>
                                     </div>
                                     <div class="btm-box">
                                         <button>Ubah Alamat</button>
@@ -101,59 +107,37 @@ if ($_SESSION['status'] != "login") {
             ?>
                 <div class="modal-container">
                     <div class="top-container">
-                            <div class="wrapper">
-                                <div class="ct-add">
-                                    <div class="box-add">
-                                        <div class="box-add-title">
-                                            <h2>Informasi Alamat Lengkap</h2>
-                                        </div>
-                                        <form action="" method="post" autocomplete="off">
-                                            <div class="add-content">
-                                                <input type="text" placeholder="Nama Penerima" name="recipientName">
-                                                <input type="text" placeholder="No. Telepon" name="phoneNumber">
-                                                <input type="text" placeholder="Label/Alamat" name="addressLabel">
-                                                <div class="row-add">
-                                                    <div class="province">
-                                                        <select name="province" id="province" onchange="province_select(this.value);">
-                                                            <option disabled selected>Pilih Provinsi</option>
-                                                            <?php
-                                                            include_once ('ongkir/curl_prov.php'); 
-                                                                foreach ($jsonDecodeProv as $row) {
-                                                                    $provinceId = $row["province_id"];
-                                                                    $provinceName = $row["province"];
-
-                                                                    ?><option value="<?= $provinceId ?>"><?=$provinceName?></option><?php
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                            
-                                                    <div class="city">
-                                                        <div id="poll">
-                                                            <select name="selectCity" id="selectCity">
-                                                                <option disabled selected>Pilih Kota</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row-add">
-                                                    <input type="text" placeholder="Kecamatan" name="district"> 
-                                                    <input type="text" placeholder="Kode Pos" name="postalCode">
-                                                </div>
-                                                <textarea placeholder="Alamat Lengkap" name="fullAddress"></textarea>
-                                                <button type="submit" name="submit">Simpan Alamat</button>
-                                            </div>
-                                        </form>
+                        <div class="wrapper">
+                            <div class="ct-add">
+                                <div class="box-add">
+                                    <div class="box-add-title">
+                                        <h2>Informasi Alamat Lengkap</h2>
+                                        <a href="address"><i class="fa-solid fa-xmark"></i></a>
                                     </div>
+                                    <form action="" method="post" autocomplete="off">
+                                        <div class="add-content">
+                                            <input type="text" placeholder="Nama Penerima" name="recipientName">
+                                            <input type="text" placeholder="No. Telepon" name="phoneNumber">
+                                            <input type="text" placeholder="Label/Alamat" name="addressLabel">
+                                            <div class="wrapper-ct-address">
+                                                <input type="text" placeholder="Tulis Nama Kota / Kecamatan / Kode Pos">
+                                                <div class="autocom-box"></div>
+                                                <input type="hidden" id="userAddressInput" name="addressCityEtc" value="">
+                                            </div>
+                                            <textarea placeholder="Alamat Lengkap" name="fullAddress"></textarea>
+                                            <button type="submit" name="submit">Simpan Alamat</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
                     <?php
         }
         ?>
-        <script src="../js/add.js"></script>
+        <script src="../js/addressFetch.js"></script>
         </body>
         </html>
         <?php

@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+::selection {
+    color: white;
+    background: #bfa267;
+}
+::-webkit-scrollbar-track{
+	border-radius: 10px;
+	background-color: #FFFFFF;
+}
+
+::-webkit-scrollbar{
+	width: 10px;
+	background-color: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	background-color: rgba(216, 183, 116, 0.75);
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: 'Inter', sans-serif;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 50px;
+    overflow-x: hidden;
+}
+.ct-center{
+    display: flex;
+    width: 500px;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background: url("https://images.unsplash.com/photo-1649335889120-4084d7456c7c?ixlib=rb-1.2.1");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+.ct-center span{
+    margin-top: 5px;
+    padding: 5px;
+    width: 65%;
+    background-color: #FF5D5D;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+}
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 25px 0;
+}
+.title a{
+    text-decoration: none;
+    font-weight: 700;
+    line-height: 25px;
+    font-size: 32px;
+    color: #CC9544;
+}
+.title-login{
+    width: 65%;
+    display: flex;
+    text-align: left;
+}
+.title-login h4{
+    color: #D8B774;
+    text-align: left;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.1px;
+}
+.ct-login{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.login{
+    width: 1000px;
+    display: grid;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+input[type=text]{
+    transition: 0.7s;
+    width: 325px;
+    height: 40px;
+    border: 1px solid #faf7f2;
+    background-color: transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+input[type=password]{
+    transition: 0.5s;
+    width: 325px;
+    height: 40px;
+    border: 1px solid #faf7f2;
+    background-color: transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+    outline: none;
+    font-size: 14px;
+}
+input:focus{
+    transition: 0.3s;
+    background-color: white;
+    border: 1px solid #D9CAB3;
+}
+::placeholder {
+    color: #8E7F7F;
+}
+.login button{
+    width: 325px;
+    height: 40px;
+    cursor: pointer;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #D8B774;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+.note{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+.note a{
+    text-decoration: none;
+}
+.note b{
+    color: #614124;
+    font-size: 12px;
+    font-weight: 400;
+}

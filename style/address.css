@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+    
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    outline: none;
+    text-decoration: none;
+}
+body{
+    background-color: #181820;
+}
+.address-container-topBox{
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    margin: 20px 0 0 0;
+    justify-content: center;
+}
+.wrapper-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    background-color: #2D303E;
+    border-radius: 5px;
+    padding: 20px;
+}
+.box-wrapper-btn{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0 0 20px 0;
+}
+.left-btn-box{
+    display: flex;
+}
+.left-btn-box button{
+    padding: 10px 20px 10px 20px;
+    background-color: #111117;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.right-btn-box{
+    display: flex;
+}
+.right-btn-box button{
+    padding: 10px 20px 10px 20px;
+    background-color: #FFB648;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.address-card-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 175px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    border: 1px solid #FFB648;
+    padding: 0 20px 0 20px;
+}
+.wrapper-box-left{
+    display: flex;
+    flex-direction: column;
+}
+.wrapper-box-right{
+    display: flex;
+}
+.wrapper-box-right i{
+    font-size: 18px;
+    color: #FFB648;
+}
+.wrapper-box-right button{
+    background-color: #FFB648;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.top-box{
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 5px 0;
+}
+.top-box h3{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0 0 5px 0;
+}
+.top-box h2{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+.mid-box{
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 10px 0;
+}
+.mid-box p{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0 0 3px 0;
+}
+.mid-box b{
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0 0 3px 0;
+}
+.btm-box{
+    display: flex;
+    margin: 0 0 5px 0;
+    align-items: center;
+    gap: 10px;
+}
+.btm-box button{
+    width: 125px;
+    background-color: #FFB648;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btm-box a{
+    border-left: 1px solid #A2B5BB;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 0 0 0 10px;
+    color: #F37878;
+}
+.btm-box i{
+    color: #F37878;
+}
+
+/* ADDRESS CARD BOX 2 */
+.address-card-box2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 175px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    padding: 0 20px 0 20px;
+    box-shadow: 0 1px 6px 0 #252836;
+}
+/* END */
+
+/* FOR ADD ADDRESS */
+.modal-container{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rgba(77, 77, 77, 0.7); */
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: 0.5s ease-in-out;
+    visibility: visible;
+    opacity: 1;
+    z-index: 999;
+}
+.top-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-container ~ .address-container-topBox{
+    display: none;
+    visibility:hidden;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    align-items: center;
+}
+.ct-add{
+    display: flex;    
+    justify-content: center;
+}
+.ct-add ::placeholder{
+    color: #73777B;
+}
+.box-add{
+    width: fit-content;
+    height: fit-content;
+    background-color: #1F2028;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+.box-add-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 30px 5px;
+    padding: 0 5px 0 0;
+}
+.box-add-title a{
+    text-decoration: none;
+}
+.box-add-title i{
+    cursor: pointer;
+}
+.box-add-title h2{
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+}
+.add-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.add-content input{
+    transition: 0.3s;
+    width: 500px;
+    height: 30px;
+    margin: 0 0 20px 0 ;
+    outline: none;
+    border: none;
+    padding: 10px;
+    background-color: #111117;
+    border-radius: 5px;
+}
+.row-add{
+    display: flex;
+    gap: 20px;
+}
+.row-add input{
+    transition: 0.3s;
+    width: 240px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+}
+.add-content textarea{
+    width: 500px;
+    height: 100px;
+    border: none;
+    outline: none;
+    background-color: #111117;
+    resize: none;
+    border-radius: 5px;
+    padding: 10px; 
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+}
+.add-content button{
+    transition: 0.3s ease-in-out;
+    width: 200px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #FFB648;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 30px 0 0 0;
+}
+.add-content button:hover{
+    transition: 0.2s ease-in-out;
+    background-color: #DD9F43;
+}
+
+.province select, .city select{
+    cursor: pointer;
+    width: 240px;
+    height: 30px;
+    outline: none;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #111117;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0 0 20px 0;
+}
+select:focus, textarea:focus, input:focus{
+    transition: 0.3s;
+    border: 1px solid #FFB648;
+}

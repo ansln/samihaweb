@@ -1,3 +1,11 @@
+<?php
+    require_once "auth/conn.php";
+    require "auth/comp/vendor/autoload.php";
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        include('auth/index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +20,20 @@
 <body>
     <div class="container">
         <div class="title">
-            <a href="/shop">Samiha Dates</a>
+            <a href="/shop"><img src="https://ik.imagekit.io/samiha/logo_hgGvqn6gn.png" alt="Samiha Dates"></a>
         </div>
         <div class="ct-center">
+            <img class ="bg-pohon" src="https://ik.imagekit.io/uqffqxbo5/datestree_wKmAIB7P2.png" width="374px"> 
         <?php
-            error_reporting(0);
-            session_start();
 
-            if($_SESSION['status']!="login"){
+            if ($_COOKIE['SMHSESS'] == ""){
                 ?>
                 <!-- LOGIN FORM -->
                 <div class="title-login">
                     <h4>Login</h4>
+                </div>
+                <div class="title-daftar">
+                    <h>Kamu belum punya akun? <a href="register.php">Daftar</a> di sini</h>
                 </div>
                 <?php
                         if(isset($_GET['err'])){
@@ -40,12 +50,12 @@
                 ?>
                 <div class="ct-login">
                     <div class="login">
-                    <form method="POST" action="auth/">
+                    <form method="POST" action="">
                         <div class="column">
                             <input type="text" id="fname" name="email" autocomplete="off" placeholder="Email or Phone Number">
                             <input type="password" id="lname" name="password" autocomplete="off" placeholder="Password">
                         </div>
-                            <button value="Login" type="submit">Login</button>
+                            <button value="Login" type="submit" name="submit">Login</button>
                         </div>
                     </form>
                     <div class="note"><a href="reset-password/"><b>Lupa kata sandi?</b></a></div>
@@ -53,10 +63,12 @@
                 </div>
             <?php
             }else{
+                $decodeJWT = $_COOKIE['SMHSESS'];
                 header("location:/shop/");
             }
-        ?>
+    ?>
+        <small>© 2022 | Samiha</small>
         </div>
-    </div>        
+    </div>
 </body>
 </html>

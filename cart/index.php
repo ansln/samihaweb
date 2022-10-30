@@ -1,14 +1,17 @@
 <?php
 
 require_once '../auth/conn.php';
-session_start();
+require_once "../auth/comp/vendor/autoload.php";
+require_once "../auth/session.php";
+require_once "val.php";
 
-    if($_SESSION['status']=="login"){
-        $uData = $db->real_escape_string($_SESSION['email']); // -> get data user email from session
-        $uDataP = $db->real_escape_string($_SESSION['phone']);
+    if($_COOKIE['SMHSESS'] != ""){
 
-        $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$uData' OR u_phone = '$uDataP'"); // -> query for fetch all data from user logged in
+        $user = new userSession;
+        $cE = new cartElement;
+        $email = $user->generateEmail();
 
+        $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$email' OR u_phone = '$email'");
         ?>
         <!DOCTYPE html>
             <html lang="en">
@@ -16,45 +19,25 @@ session_start();
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Samiha Dates - Keranjang</title>
+                <title>Samiha - Keranjang</title>
                 <link rel="stylesheet" href="../style/cart.css">
-                <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <link rel="stylesheet" href="../layout/nav.css">
+                <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script><script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
             </head>
             <body>
         <?php
-        if($userQuery->num_rows){ // -> fetch user data
+        if($userQuery->num_rows){
             while($u_fetch = $userQuery->fetch_object()){
                 
                 $userId = $u_fetch->id;
                 $cartQuery = $db->query("SELECT * FROM cart WHERE userId=$userId ORDER BY id DESC");
                 $cartQueryDetail = $db->query("SELECT * FROM cart WHERE userId=$userId ORDER BY id DESC");
+                
+                $getNavbar = $cE->getNav();
                 ?>
-                    <nav>
-                        <div class="left">
-                            <a href="../">Samiha Dates</a>
-                            <!-- <a href=""><button>Kategori</button></a> -->
-                        </div>
-                        <div class="center">
-                            <!-- <button>Discover our product</button> -->
-                        </div>
-                        <div class="right">
-                            <div class="ico-row">
-                                <a href="../cart/"><img src="http://localhost/shop/assets/img/cart_ico.png"></a>
-                                <a href=""><img src="http://localhost/shop/assets/img/notif.png"></a>
-                            </div>
-                            <span>Selamat datang, <b><?= $u_fetch->u_username ?></b></span>
-                            <div class="ico-user">
-                                <a href="../user/"><img src="http://localhost/shop/assets/img/user.png"></a>
-                            </div>
-                        </div>
-                    </nav>
-                <?php
-
-                ?>
-                <!-- START OF CONTAINER -->
                     <div class="container">
                         <div class="container-left">
-                    <?php
+                <?php
 //check user cart
                 $check = mysqli_num_rows($cartQuery);
                 if($check < 1){
@@ -105,7 +88,7 @@ session_start();
                                         </div>
                                         <div class="card-bottom">
                                             <p>Tambahkan ke wihslist</p>
-                                            <form action="?del=<?= $c_fetch->uid ?>" method="post"><button class="delete" type="submit"><img src="../assets/img/trash.png"></button></form>
+                                            <form action="?del=<?= $c_fetch->uid ?>" method="post"><button class="delete" type="submit"><i class="fa-solid fa-trash"></i></button></form>
                                             <?php
                                                     if ($qty <= 1) {
                                                         ?><form action="?min=<?= $c_fetch->uid ?>" method="post"><button class="min" type="submit" disabled>-</button></form><?php
@@ -205,7 +188,7 @@ session_start();
     </body>
     </html>
     <?php
-    }if($_SESSION['status']!="login"){
-        header("location:/shop/login.php?err=login");
+    }else{
+        header("location: /shop/login.php?err=login");
     }
 ?>

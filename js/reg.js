@@ -1,6 +1,7 @@
 const wrapper = document.querySelector(".wrapper"),
 selectBtn = wrapper.querySelector(".select-btn"),
 options = wrapper.querySelector(".options");
+msg = document.querySelector(".reg-fill");
 
 let gender = ["Pria", "Wanita"];
 
@@ -26,4 +27,10 @@ function updateName(selectedLi){
 
 selectBtn.addEventListener("click", () => {
     wrapper.classList.toggle("active");
+});
+
+$(document).ready(function() {
+    $(msg).click(function(){
+        $("#infoMsg").fadeOut("slow");
+    });
 });

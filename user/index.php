@@ -1,15 +1,17 @@
 <?php
 
-session_start();
 require_once 'conn.php';
-require_once '../auth/functions/index.php';
+require_once '../auth/comp/vendor/autoload.php';
+require_once '../auth/session.php';
 
-if ($_SESSION['status'] == "login") {
-    $uData = $db->real_escape_string($_SESSION['email']); // -> get data user email from session
-    $uDataP = $db->real_escape_string($_SESSION['phone']);
+error_reporting(0);
 
-    $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$uData' OR u_phone = '$uDataP'"); // -> query for fetch all data from user logged in
+$get = new userSession;
 
+if ($_COOKIE['SMHSESS'] != "") {
+
+    $email = $get->generateEmail();
+    $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$email' OR u_phone = '$email'");
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -19,11 +21,18 @@ if ($_SESSION['status'] == "login") {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Samiha Dates - Profile</title>
-        <link rel="stylesheet" href="../style/user.css"><link rel="stylesheet" href="../layout/nav.css">
+        <link rel="stylesheet" href="../style/user.css"><link rel="stylesheet" href="../layout/nav.css"><link rel="stylesheet" href="../style/cssImages.css"><link rel="stylesheet" href="../style/cssImgUpload.css">
         <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
+        <script src="../js/edit-pic.js"></script><script src="../js/loading.js"></script>
+        <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     </head>
-
     <body>
+        <div class="loader-container">
+            <span class="loader"></span>
+        </div>
+
+        <div id="editPic"></div>
         <?php
         if ($userQuery->num_rows) { // -> fetch user data
             while ($u_fetch = $userQuery->fetch_object()) {
@@ -65,7 +74,7 @@ if ($_SESSION['status'] == "login") {
                         <div class="nav-menu">
                             <a href="./">Profile</a>
                             <a href="">Chat</a>
-                            <a href="">Daftar Transaksi</a>
+                            <a href="../order-list/">Daftar Transaksi</a>
                             <a href="../wishlist/">Wishlist</a>
                         </div>
                         <div class="btm-menu">
@@ -76,8 +85,10 @@ if ($_SESSION['status'] == "login") {
                 <div class="user-right">
                     <div class="left-box">
                         <img src="<?= $profilePict ?>">
-                        <button>Pilih Foto</button>
-                        <a href="../logout.php"><button>Logout</button></a>
+                        <div class="button-block">
+                            <a href="u/editPic.php" class="editPicButton"><button>Pilih Foto</button></a>
+                        </div>
+                        <button id="userOutBtn">Logout</button>
                     </div>
                     <div class="right-box">
                         <h2>Profile</h2>
@@ -93,35 +104,30 @@ if ($_SESSION['status'] == "login") {
                                 <div class="right-column">
                                     <div class="rc-row">
                                         <p><?= $userFullName ?></p>
-                                        <button id="nameEditBtn">Ubah</button>
-                                        <div id="show"></div>
+                                        <form enctype="multipart/form-data" id="getName"><button id="nameEditBtn">Ubah</button></form>
                                     </div>
                                     <div class="rc-row">
                                         <p><?= $userDOB ?></p>
-                                        <button>Ubah</button>
                                     </div>
                                     <div class="rc-row">
                                     <p><?php $gender = $u_fetch->u_gender;
                                         if ($gender == "Male"){ echo "Pria";
-                                        }if ($gender == "Female"){ echo "Wanita";
-                                        }if ($gender == "Other"){ echo "Lain-lain";
-                                        }else if($gender == "Male" && $gender == "Female" && $gender == "Other"){ echo "Unknown";}
+                                        }if ($gender == "Female"){ echo "Wanita"; }
                                     ?></p>
-                                        <button>Ubah</button>
                                     </div>
                                     <div class="rc-row">
-                                        <p><?= $userEmail ?> <?php if ($userStatus == 1) { echo "Verified!"; } ?></p>
-                                        <button>Ubah</button>
+                                        <p id="email"><?= $userEmail ?> <?php 
+                                        if ($userStatus == 1){ ?><i class="fa-solid fa-check"></i><?php }else{ ?><b>not verified</b><?php } ?></p>
                                     </div>
-                                    <div class="rc-row">
+                                    <div class="rc-row2">
                                         <p><?= $userPhone ?></p>
-                                        <button>Ubah</button>
+                                        <!-- <button>Ubah</button> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <button>Ubah Password</button>
-                                <a href="address"><button>Daftar Alamat</button></a>
+                                <button id="resetPasswordBtn">Ubah Password</button>
+                                <button id="addressPageBtn">Daftar Alamat</button>
                             </div>
                             <?php
                                 if ($userStatus == 0) {
@@ -138,11 +144,16 @@ if ($_SESSION['status'] == "login") {
     </body>
     </html>
 <?php
-                    if (isset($_POST["submit"])) {
-                        include 'ver/index.php';
-                    }
                 }
             }
-}if ($_SESSION['status'] != "login") {
-    header("location:/shop/login.php?err=login");
+}if ($_COOKIE['SMHSESS'] == "") {
+    ?><script>window.location.replace('../login.php?err=login');</script><?php //REDIRECT TO HOMEPAGE
+}
+
+function userPictCheck($value){
+    if ($value != "") {
+        return $value;
+    }else{
+        return "../assets/etc/default.png";
+    }
 }

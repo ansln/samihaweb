@@ -1,8 +1,16 @@
+<?php
+
+include "auth/functions/index.php";
+
+$getHome = new homeManagement;
+$dbElement = $getHome->getElement("samiha-logo");
+
+if($dbElement->num_rows){
+    while($dashboard = $dbElement->fetch_object()){
+        ?>
 <nav>
     <div class="left">
-        <div class="top_logo">
-            <a href=""><img src="assets/img/logo/logo2.png"></a>
-        </div>
+        <div class="top_logo"><a href="."><img src="<?= $dashboard->url ?>"></a></div>
         <a href="">Kategori</a>
     </div>
 
@@ -26,3 +34,6 @@
         </div>
     </div>
 </nav>
+        <?php
+    }
+}

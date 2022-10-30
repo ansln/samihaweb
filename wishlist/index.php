@@ -1,13 +1,15 @@
 <?php
 
 require_once '../auth/conn.php';
-session_start();
+require "../auth/comp/vendor/autoload.php";
+require "../auth/session.php";
 
-    if($_SESSION['status']=="login"){
-        $uData = $db->real_escape_string($_SESSION['email']); // -> get data user email from session
-        $uDataP = $db->real_escape_string($_SESSION['phone']);
+    if($_COOKIE['SMHSESS'] != ""){
+        //get userEmail from JWT
+        $get = new userSession;
+        $email = $get->generateEmail();
 
-        $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$uData' OR u_phone = '$uDataP'"); // -> query for fetch all data from user logged in
+        $userQuery = $db->query("SELECT * FROM user WHERE u_email = '$email' OR u_phone = '$email'"); // -> query for fetch all data from user logged in
 
         ?>
         <!DOCTYPE html>
@@ -17,9 +19,9 @@ session_start();
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Samiha Dates - Wishlist</title>
-                <link rel="stylesheet" href="../style/wishlist.css">
+                <link rel="stylesheet" href="../style/wishlist.css"><link rel="stylesheet" href="../layout/nav.css">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-                <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script><script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
             </head>
             <body>
         <?php
@@ -30,27 +32,7 @@ session_start();
                 $userId = $u_fetch->id;
                 $wishlistQuery = $db->query("SELECT * FROM wishlist WHERE userId=$userId ORDER BY id DESC");
                 $cartQuery = $db->query("SELECT * FROM cart WHERE userId=$userId");
-                ?>
-                <nav>
-                    <div class="left">
-                        <a href="../">Samiha Dates</a>
-                        <!-- <a href=""><button>Kategori</button></a> -->
-                    </div>
-                    <div class="center">
-                        <!-- <button>Discover our product</button> -->
-                    </div>
-                    <div class="right">
-                        <div class="ico-row">
-                            <a href="../cart/"><img src="http://localhost/shop/assets/img/cart_ico.png"></a>
-                            <a href=""><img src="http://localhost/shop/assets/img/notif.png"></a>
-                        </div>
-                        <span>Selamat datang, <b><?= $u_fetch->u_username ?></b></span>
-                        <div class="ico-user">
-                            <a href="../user/"><img src="http://localhost/shop/assets/img/user.png"></a>
-                        </div>
-                    </div>
-                </nav>
-                <?php
+                include "../layout/navwish.php";
 
                 ?>
                 <div class="container">
@@ -93,24 +75,25 @@ session_start();
                                     <div class="card">
                                         <img src="<?php echo "$p_fetch->pd_img" ?>">
                                         <div class="card-ct">
-                                            <a href="../product/view.php?product=<?php echo "$p_fetch->pd_link" ?>"><h3><?php echo "$p_fetch->pd_name" ?></h3></a>
+                                            <a href="../product/view?product=<?php echo "$p_fetch->pd_link" ?>"><h3><?php echo "$p_fetch->pd_name" ?></h3></a>
                                             <b>Rp <?php echo number_format($p_fetch->pd_price,0,"",".") ?></b>
                                             <p>Terjual: <?php echo "$p_fetch->pd_stock" ?></p>
-                                            <div class="keranjang">
-                                                <?php
-                                                //ADD TO CART VALIDATION
-                                                    $cartValidationQuery = $db->query("SELECT * FROM cart WHERE userid=$userId AND productId=$productId");
-
-                                                    if (mysqli_num_rows($cartValidationQuery) >= 1){
-                                                        ?><form action="" method="post"><input type="hidden" value="<?= $p_fetch->pd_id ?>" name="uid"><button type="submit" name="addMore">+Keranjang</button></form><?php
-                                                    }if (mysqli_num_rows($cartValidationQuery) <= 0){
-                                                        ?><form action="" method="post"><input type="hidden" value="<?= $p_fetch->pd_id ?>" name="uid"><button type="submit" name="addToCart">+Keranjang</button></form><?php
-                                                    }
-                                                ?>
-                                            </div>
-                                            <div class="wishlist">
-                                                <form action="" method="post"><input type="hidden" value="<?= $w_fetch->uid ?>" name="uid"><button type="submit" name="deleteWishlist">hapus wishlist</button>
-                                            </form>
+                                            <div class="mix-wish-cart">
+                                                <div class="keranjang">
+                                                    <?php
+                                                    //ADD TO CART VALIDATION
+                                                        $cartValidationQuery = $db->query("SELECT * FROM cart WHERE userid=$userId AND productId=$productId");
+        
+                                                        if (mysqli_num_rows($cartValidationQuery) >= 1){
+                                                            ?><form action="" method="post"><input type="hidden" value="<?= $p_fetch->pd_id ?>" name="uid"><button type="submit" name="addMore">+Keranjang</button></form><?php
+                                                        }if (mysqli_num_rows($cartValidationQuery) <= 0){
+                                                            ?><form action="" method="post"><input type="hidden" value="<?= $p_fetch->pd_id ?>" name="uid"><button type="submit" name="addToCart">+Keranjang</button></form><?php
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <div class="wishlist">
+                                                    <form action="" method="post"><input type="hidden" value="<?= $w_fetch->uid ?>" name="uid"><button type="submit" name="deleteWishlist"><i class="fa-solid fa-trash"></i></button></form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -228,7 +211,7 @@ session_start();
     </body>
     </html>
     <?php
-    }if($_SESSION['status']!="login"){
+    }if($_COOKIE['SMHSESS'] == ""){
         header("location:/shop/login.php?err=login");
     }
 ?>

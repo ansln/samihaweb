@@ -1,15 +1,20 @@
 <?php
-    require_once 'auth/conn.php';
-    require_once 'sys/admin/auth/functions.php';
-    session_start();
+
+require_once 'auth/conn.php';
+require_once 'sys/admin/auth/functions.php';
+require_once 'auth/comp/vendor/autoload.php';
+require_once 'auth/session.php';
+
+$session = new userSession;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Samiha Dates</title>
+    <title>Samiha - Supplier kurma terbaik di Indonesia</title>
+    <link rel="icon" type="image/x-icon" href="https://ik.imagekit.io/samiha/logo_hgGvqn6gn.png">
     <meta charset="UTF-8">
     <meta name="description" content="Supplier kurma terbaik di Indonesia">
-    <meta name="keywords" content="samihadates.com, SamihaDates, samiha dates, samihadates">
+    <meta name="keywords" content="samiha.id, Samiha, samiha, samiha, samihaid, kurmasamiha, kurma">
     <meta name="author" content="ansln">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
@@ -17,33 +22,34 @@
 </head>
 <body>
     <?php
-        if($_SESSION['status']!="login"){
-                include 'layout/nav.php';
-            }else{
-                if(isset($_SESSION['email']) || isset($_SESSION['phone'])){ 
-                    $uData = $db->real_escape_string($_SESSION['email']); // -> get data user email from session
-                    $uDataP = $db->real_escape_string($_SESSION['phone']);
-
-                    $u_fetch = $db->query("SELECT * FROM user WHERE u_email LIKE '{$uData}' OR u_phone LIKE '{$uDataP}'"); // -> query for fetch all data from user logged in
-                    
-                    if($u_fetch->num_rows){ // -> fetch data
-                        while($r = $u_fetch->fetch_object()){
+        if ($_COOKIE['SMHSESS']) {
+            //userTokenCheck
+            $cookie = $_COOKIE['SMHSESS'];
+            $userSession = mysqli_query($db, "SELECT * FROM user_session WHERE user_jwt='$cookie'");
+            $userSessionCheck = mysqli_num_rows($userSession);
+            
+            if ($userSessionCheck > 0) {
+                //fetch email from user
+                $userEmail = $session->generateEmail();
+                $userData = mysqli_query($db, "SELECT * FROM user WHERE u_email='$userEmail' OR u_phone='$userEmail'");
+                $userDataCheck = mysqli_num_rows($userData);
+                if ($userDataCheck > 0) {
+                    if($userData->num_rows){
+                        while($r = $userData->fetch_object()){
                             include 'layout/nav1.php';
                         }
                     }
-                }
-            }
+                }else{ ?><script>window.location.replace("logout.php");</script><?php }
+            }else{ ?><script>window.location.replace("logout.php");</script><?php }
+        }else{ include 'layout/nav.php'; }
     ?>
         <div class="ct-content">
             <div class="content">
-                <!-- SLIDE SHOW -->
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1633677491262-0a51b9851f46?ixlib=rb-1.2.1" loading="lazy"></div>
-                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1648288725055-5ba4063355b9?ixlib=rb-1.2.1" loading="lazy"></div>
-                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1649335889120-4084d7456c7c?ixlib=rb-1.2.1" loading="lazy"></div>
-                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1633677491262-0a51b9851f46?ixlib=rb-1.2.1" loading="lazy"></div>
-                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1648288725055-5ba4063355b9?ixlib=rb-1.2.1" loading="lazy"></div>
+                        <div class="swiper-slide"><img src="https://ik.imagekit.io/gogomushroom/photo-1633677491262-0a51b9851f46_VNrJ96nPL.jfif" loading="lazy"></div>
+                        <div class="swiper-slide"><img src="https://ik.imagekit.io/gogomushroom/photo-1649335889120-4084d7456c7c_sZrnFI1EN.jfif" loading="lazy"></div>
+                        <div class="swiper-slide"><img src="https://ik.imagekit.io/gogomushroom/97uD7-Nwk-uEWe7-PZC.jpg" loading="lazy"></div>
                     </div>
                     <div class="swiper-button-next"><img src="./assets/img/arrow2.png"></div>
                     <div class="swiper-button-prev"><img src="./assets/img/arrow2.png"></div>
@@ -53,7 +59,7 @@
                 <div class="content-product">
 
                     <div class="newbanner">
-                        <img src="./assets/img/banner/banner-test.jpg">
+                        <img src="https://ik.imagekit.io/gogomushroom/banner-test_Qrt8fUJs4.jpg">
                     </div>
 
                     <div class="row-ct-product">
@@ -68,7 +74,7 @@
                         if($pd_1->num_rows){
                             while($r = $pd_1->fetch_object()){
                                 ?>
-                                <a href="product/view.php?product=<?php echo "$r->pd_link" ?>">
+                                <a href="product/view?product=<?php echo "$r->pd_link" ?>">
                                 <div class="pd-card-content">
                                     <img src="<?php echo "$r->pd_img" ?>" loading="lazy">
                                     <div class="pd-text">
