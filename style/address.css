@@ -131,10 +131,11 @@ body{
 .btm-box{
     display: flex;
     margin: 0 0 5px 0;
-    align-items: center;
     gap: 10px;
+    align-items: center;
 }
 .btm-box button{
+    transition: 0.3s;
     width: 125px;
     background-color: #FFB648;
     font-weight: 600;
@@ -145,17 +146,30 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }
-.btm-box a{
-    border-left: 1px solid #A2B5BB;
-    text-decoration: none;
+.btm-box button:hover{
+    transition: 0.2s;
+    background-color: rgba(255, 182, 72, 0.8);
+}
+.btm-box #deleteAddressBtn{
+    transition: 0.3s;
+    background-color: transparent;
     font-weight: 600;
     font-size: 12px;
     line-height: 15px;
-    padding: 0 0 0 10px;
+    padding: 0;
+    width: fit-content;
     color: #F37878;
 }
 .btm-box i{
     color: #F37878;
+}
+.btm-box #deleteAddressBtn:hover{
+    transition: 0.2s;
+    color: rgba(243, 120, 120, 0.8);
+}
+.btm-box #deleteAddressBtn:hover > i{
+    transition: 0.2s;
+    color: rgba(243, 120, 120, 0.8);
 }
 
 /* ADDRESS CARD BOX 2 */
@@ -182,119 +196,11 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: rgba(77, 77, 77, 0.7); */
     background-color: rgba(0, 0, 0, 0.7);
     transition: 0.5s ease-in-out;
     visibility: visible;
     opacity: 1;
     z-index: 999;
-}
-.top-container{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-.top-container ~ .address-container-topBox{
-    display: none;
-    visibility:hidden;
-}
-.wrapper{
-    display: flex;
-    flex-direction: column;
-    width: 1200px;
-    align-items: center;
-}
-.ct-add{
-    display: flex;    
-    justify-content: center;
-}
-.ct-add ::placeholder{
-    color: #73777B;
-}
-.box-add{
-    width: fit-content;
-    height: fit-content;
-    background-color: #1F2028;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-}
-.box-add-title{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 0 30px 5px;
-    padding: 0 5px 0 0;
-}
-.box-add-title a{
-    text-decoration: none;
-}
-.box-add-title i{
-    cursor: pointer;
-}
-.box-add-title h2{
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-}
-.add-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.add-content input{
-    transition: 0.3s;
-    width: 500px;
-    height: 30px;
-    margin: 0 0 20px 0 ;
-    outline: none;
-    border: none;
-    padding: 10px;
-    background-color: #111117;
-    border-radius: 5px;
-}
-.row-add{
-    display: flex;
-    gap: 20px;
-}
-.row-add input{
-    transition: 0.3s;
-    width: 240px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-}
-.add-content textarea{
-    width: 500px;
-    height: 100px;
-    border: none;
-    outline: none;
-    background-color: #111117;
-    resize: none;
-    border-radius: 5px;
-    padding: 10px; 
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-}
-.add-content button{
-    transition: 0.3s ease-in-out;
-    width: 200px;
-    height: 32px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #FFB648;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 15px;
-    margin: 30px 0 0 0;
-}
-.add-content button:hover{
-    transition: 0.2s ease-in-out;
-    background-color: #DD9F43;
 }
 
 .province select, .city select{
@@ -311,7 +217,142 @@ body{
     line-height: 15px;
     margin: 0 0 20px 0;
 }
-select:focus, textarea:focus, input:focus{
+select:focus{
     transition: 0.3s;
     border: 1px solid #FFB648;
+}
+
+/* add address v2 */
+.add-as-top-container{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+.add-as-top-ct-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 550px;
+}
+.add-as-content{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.add-as-content-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #1F2028;
+    border-radius: 5px;
+    padding: 15px;
+}
+.add-as-top-row{
+    width: 100%;
+    padding: 10px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.add-as-top-row .fa-xmark{
+    cursor: pointer;
+}
+#add-as-title{
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+}
+.add-as-form-ct{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 0 0 0;            
+}
+.add-as-form-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.add-as-form-wrapper input{
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #111117;
+}
+#findCityEtcInput{
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #111117;
+}
+.wrapper-ct-address input::placeholder{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #87878B;
+}
+#findCityEtcInput:focus{
+    border: 1px solid #FFB648;
+}
+.add-as-form-wrapper input::placeholder{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #87878B;
+}
+.add-as-form-wrapper input:focus{
+    border: 1px solid #FFB648;
+}
+.add-as-form-wrapper textarea{
+    height: 100px;
+    border: none;
+    outline: none;
+    background-color: #111117;
+    resize: none;
+    border-radius: 5px;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0 0 10px 0;
+}
+.add-as-form-wrapper textarea::placeholder{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #87878B;
+}
+.add-as-form-wrapper textarea:focus{
+    border: 1px solid #FFB648;
+}
+.add-as-form-wrapper button{
+    transition: 0.3s;
+    background-color: #FFB648;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    cursor: pointer;
+    border: none;
+}
+.add-as-form-wrapper button:hover{
+    transition: 0.2s;
+    background-color: rgba(255, 182, 72, 0.9);
+}
+@media (max-width: 600px) {
+    .add-as-content{
+        padding: 20px;
+    }
 }

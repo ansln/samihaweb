@@ -4,8 +4,6 @@ require_once 'conn.php';
 require_once '../auth/comp/vendor/autoload.php';
 require_once '../auth/session.php';
 
-error_reporting(0);
-
 $get = new userSession;
 
 if ($_COOKIE['SMHSESS'] != "") {
@@ -21,7 +19,8 @@ if ($_COOKIE['SMHSESS'] != "") {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Samiha Dates - Profile</title>
-        <link rel="stylesheet" href="../style/user.css"><link rel="stylesheet" href="../layout/nav.css"><link rel="stylesheet" href="../style/cssImages.css"><link rel="stylesheet" href="../style/cssImgUpload.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link rel="stylesheet" href="../style/user.css"><link rel="stylesheet" href="../layout/navprofile.css"><link rel="stylesheet" href="../style/cssImages.css"><link rel="stylesheet" href="../style/cssImgUpload.css"><link rel="stylesheet" href="../style/scrollselection.css"><link rel="stylesheet" href="../layout/footer.css">
         <script src="../js/jquery-3.6.0.min.js"></script>
         <script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
         <script src="../js/edit-pic.js"></script><script src="../js/loading.js"></script>
@@ -57,7 +56,7 @@ if ($_COOKIE['SMHSESS'] != "") {
 
                 include "../layout/navprofile.php";
         ?>
-            <div class="container">
+        <div class="container">
             <div class="ct-box">
                 <div class="user-left">
                     <div class="profile-details">
@@ -73,7 +72,7 @@ if ($_COOKIE['SMHSESS'] != "") {
                     <div class="menu">
                         <div class="nav-menu">
                             <a href="./">Profile</a>
-                            <a href="">Chat</a>
+                            <a href="../cart">Keranjang</a>
                             <a href="../order-list/">Daftar Transaksi</a>
                             <a href="../wishlist/">Wishlist</a>
                         </div>
@@ -86,7 +85,7 @@ if ($_COOKIE['SMHSESS'] != "") {
                     <div class="left-box">
                         <img src="<?= $profilePict ?>">
                         <div class="button-block">
-                            <a href="u/editPic.php" class="editPicButton"><button>Pilih Foto</button></a>
+                            <?php if ($userFullName != "demo account") { ?><a href="u/editPic.php" class="editPicButton"><button>Pilih Foto</button></a><?php }else{ ?><button id="editPicBtn">Pilih Foto</button></a><?php } ?>
                         </div>
                         <button id="userOutBtn">Logout</button>
                     </div>
@@ -104,16 +103,13 @@ if ($_COOKIE['SMHSESS'] != "") {
                                 <div class="right-column">
                                     <div class="rc-row">
                                         <p><?= $userFullName ?></p>
-                                        <form enctype="multipart/form-data" id="getName"><button id="nameEditBtn">Ubah</button></form>
+                                        <?php if ($userFullName != "demo account") { ?><form enctype="multipart/form-data" id="getName"><button id="nameEditBtn">Ubah</button></form><?php } ?>
                                     </div>
                                     <div class="rc-row">
                                         <p><?= $userDOB ?></p>
                                     </div>
                                     <div class="rc-row">
-                                    <p><?php $gender = $u_fetch->u_gender;
-                                        if ($gender == "Male"){ echo "Pria";
-                                        }if ($gender == "Female"){ echo "Wanita"; }
-                                    ?></p>
+                                    <p><?php if ($userGender == "Male") { echo "Pria"; }if ($userGender == "Female") { echo "Wanita"; }if ($userGender == "Pria") { echo "Pria"; }if ($userGender == "Wanita") { echo "Wanita"; } ?></p>
                                     </div>
                                     <div class="rc-row">
                                         <p id="email"><?= $userEmail ?> <?php 
@@ -121,7 +117,6 @@ if ($_COOKIE['SMHSESS'] != "") {
                                     </div>
                                     <div class="rc-row2">
                                         <p><?= $userPhone ?></p>
-                                        <!-- <button>Ubah</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -140,6 +135,73 @@ if ($_COOKIE['SMHSESS'] != "") {
                 </div>
             </div>
         </div>
+        <div class="phone-top-navbar">
+            <div id="phone-back-nav">
+                <i class="fa-solid fa-angle-left"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+        <div class="phone-user-container">
+            <div class="phone-user-mt-ct-wrapper">
+                <div class="phone-user-ct">
+                    <div class="phone-user-ct-wrapper">
+                        <div class="phone-user-top-sec">
+                            <div class="phone-user-top-sec-left">
+                                <div id="phone-user-image"><img src="<?= $userProfilePict ?>"></div>
+                            </div>
+                            <div class="top-sec-right">
+                                <div id="phone-user-fn"><?= $userFullName ?></div>
+                                <div id="phone-user-ph"><?= $userPhone ?></div>
+                                <div id="phone-user-email"><?= $userEmail ?></div>
+                            </div>
+                        </div>
+                        <div class="phone-user-btm-sec">
+                            <div class="phone-user-account-menu">
+                                <div id="phone-user-tx-list">
+                                    <div id="tx-list-left">
+                                        <i class="fa-solid fa-money-bill-transfer"></i>
+                                    </div>
+                                    <div id="phone-user-text-row">
+                                        <div id="phone-user-text-row-title">Daftar Transaksi</div>
+                                        <div id="phone-user-text-row-sub">Cek status belanjaan kamu</div>
+                                    </div>
+                                </div>
+                                <div id="phone-user-address">
+                                    <div id="ph-address-left">
+                                        <i class="fa-solid fa-house-chimney-window"></i>
+                                    </div>
+                                    <div id="phone-user-text-row">
+                                        <div id="phone-user-text-row-title">Alamat</div>
+                                        <div id="phone-user-text-row-sub">Atur alamat pengiriman belanjaan</div>
+                                    </div>
+                                </div>
+                                <div id="phone-user-cart">
+                                    <div id="ph-address-left">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+                                    <div id="phone-user-text-row">
+                                        <div id="phone-user-text-row-title">Keranjang</div>
+                                        <div id="phone-user-text-row-sub">Cek keranjang belanjaan</div>
+                                    </div>
+                                </div>
+                                <div id="phone-user-wishlist">
+                                    <div id="ph-address-left">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </div>
+                                    <div id="phone-user-text-row">
+                                        <div id="phone-user-text-row-title">Wishlist</div>
+                                        <div id="phone-user-text-row-sub">Atur barang kesukaan kamu</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="phone-user-support"><i class="fa-solid fa-headset"></i><div id="phone-support-btn">Support</div></div>
+                            <div id="phone-user-logout"><i class="fa-solid fa-right-from-bracket"></i><div id="phone-logout-btn">Logout</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php include '../layout/footer.php'; ?>
         <script src="../js/user.js"></script>
     </body>
     </html>

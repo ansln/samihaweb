@@ -1,6 +1,6 @@
 var swiper = new Swiper(".mySwiper", {
     autoplay: {
-        delay: 5000,
+        delay: 3000,
         disableOnInteraction: false,
     },
     pagination: {
@@ -11,4 +11,15 @@ var swiper = new Swiper(".mySwiper", {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
     },
+});
+$(document).ready(function() {
+    $("#main-logo").click(function(){
+        window.location.replace(".");
+    });
+    $("#cart-btn").click(function(){
+        window.location.replace("cart/");
+    });
+    $("#profile-pict").click(function(){
+        window.location.replace("user/");
+    });
 });

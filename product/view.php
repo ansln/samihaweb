@@ -1,11 +1,15 @@
 <?php
 
 require '../auth/functions/productView.php';
+require_once '../auth/functions/priceShow.php';
 
 $getProduct = new productView;
 $getUser = new userFunction;
 $getWishlist = new wishlistFunction;
 $getReview = new productReview;
+$forPrice = new productPriceView;
+
+$checkUserLoginforPrice = $forPrice->getUserLoginforPrice();
 
 if(isset($_GET['product'])){
 
@@ -18,9 +22,15 @@ if(isset($_GET['product'])){
         $productId = $pd->pd_id;
         $productName = $pd->pd_name;
         $productPrimaryIMG = $pd->pd_img;
+        $productStock = $pd->pd_stock;
         $productPrice = $pd->pd_price;
         $productWeight = $pd->pd_weight;
+        $descSanitize = htmlspecialchars($pd->pd_desc, ENT_QUOTES, 'UTF-8');
+        $descDecode = htmlspecialchars_decode($descSanitize);
+        $productDesc = $descDecode;
         $reviewFetchDb = $getReview->getReview($productId);
+        if ($checkUserLoginforPrice != true) { $showPrice = '<div id="lp-price"><a href="/shop/login.php">Login untuk melihat harga</a></div>'; }else{ $showPrice = "Rp" . number_format($productPrice,0,"","."); }
+        if ($productStock <= 0) { $showStock = 'Stok habis'; }else{ $showStock = 'Sisa ' . $productStock; }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +40,7 @@ if(isset($_GET['product'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samiha - <?= $productName ?></title>
     <script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script><script src="../js/jquery-3.6.0.min.js"></script><script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"><link rel="stylesheet" href="../style/view.css"><link rel="stylesheet" href="../layout/nav.css"><link rel="stylesheet" href="../style/cssImages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"><link rel="stylesheet" href="../style/view.css"><link rel="stylesheet" href="../layout/nav.css"><link rel="stylesheet" href="../layout/footer.css"><link rel="stylesheet" href="../style/cssImages.css"><link rel="stylesheet" href="../style/search.css"/>
 </head>
 <body>
     <div id="show"></div>
@@ -39,6 +49,8 @@ if(isset($_GET['product'])){
     ?>
     <div class="top-sec-container">
         <div class="sec-wrapper">
+
+        <div class="image-sec-wrapper">
             <div class="sec1">
                 <div class="ct-img">
                     <div class="small-img">
@@ -48,7 +60,7 @@ if(isset($_GET['product'])){
                             if($dbImage->num_rows){
                                 while($img = $dbImage->fetch_object()){
                                     $fetchAllImg = $img->img_link;
-                                    ?><img class="image-link" src="<?= $fetchAllImg ?>"><?php
+                                    ?><img alt="kurma-samiha-photo" class="image-link" src="<?= $fetchAllImg ?>"><?php
                                 }
                             }
                         ?>
@@ -81,6 +93,8 @@ if(isset($_GET['product'])){
                     <button id="shareBtn"><i class="fa-solid fa-share-nodes"></i> Share</button>
                 </div>
             </div>
+        </div>
+
             <div class="sec3">
                 <div class="title-row">
                     <h3><?= $productName ?></h3>
@@ -90,11 +104,11 @@ if(isset($_GET['product'])){
                         <i class="fa-solid fa-star"></i>
                         <b>4.8</b>
                     </div>
-                    <p>50 Ulasan</p>
-                    <p>Terjual<span>250+</span></p>
+                    <!--<p>50 Ulasan</p>-->
+                    <p><span><?= $showStock ?></span></p>
                 </div>
                 <div class="price-sec">
-                    <h2><?= number_format($productPrice,0,"",".") ?></h2>
+                    <h2><?= $showPrice ?></h2>
                 </div>
                 <div class="mindesc-sec">
                     <div class="mindesc-row">
@@ -116,7 +130,7 @@ if(isset($_GET['product'])){
                 </div>
                 <div class="loc-sec">
                     <i class="fa-solid fa-location-dot"></i>
-                    <p>Dikirim dari <b>Bekasi Barat</b></p>
+                    <p>Dikirim dari <b>Bekasi Selatan</b></p>
                 </div>
                 <div class="cart-sec">
                     <form enctype="multipart/form-data" id="addToCart"><input type="hidden" name="cartProductId" value="<?= $productId ?>" id="cartProductId"><button id="addToCartBtn"><i class="fa-solid fa-cart-shopping"></i><b>Tambahkan ke keranjang</b></button></form>
@@ -128,20 +142,7 @@ if(isset($_GET['product'])){
         <div class="sec-prod-det-wrapper">
             <div id="top-title">Informasi Produk</div>
             <div class="prod-content">
-                <p>Samiha Kurma Ajwa 500 gram</p>
-                <br>
-                <p>Kurma Ajwa dikenal dengan kurma favorit Rasulullah. Kurma Ajwa pertama kali ditanam berdampingan dengan Masjid Quba di Madinah.Kata Ajwa
-                diambil dari nama anak Salman Alfarisi. Lelaki mualaf pewakaf lahan kurma untuk perjuangan Islam. Menghormati jasa Salman, Nabi pun menggunakan
-                nama anaknya untuk menyebut kurma itu. Kurma Ajwa termasuk jenis kurma yang kering.</p>
-                <br>         
-                <p>Sangat cocok untuk dimakan langsung, campuran makanan/minuman.</p>
-                <p>Masa Simpan: 12 bulan</p>
-                <p>*Simpan di kulkas atau minimal suhu yang sejuk agar terhindar dari kutu dan jamur</p>
-                <br>
-                <p>Dikemas Oleh :</p>
-                <p>PT Mudi Asada Mulia</p>
-                <p>Bekasi - 17114</p>
-                <p>Indonesia</p>
+                <?= $productDesc ?>
             </div>
         </div>
     </div>
@@ -201,47 +202,46 @@ if(isset($_GET['product'])){
             <div id="top-title">Produk Lainnya</div>
             <div class="sec-card-container">
                 <div class="sec-card-wrapper">
-                    <div class="card">
-                        <img src="https://ik.imagekit.io/samiha/2201e734935dc002df97de25789d4c04-2965287061_xiPNPvyJ3.jpg">
-                        <div class="text-wrapper">
-                            <div id="title">Kurma Khalas Saad</div>
-                            <div id="price">Rp40.000</div>
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <b>5</b>
-                                <p>Terjual 20</p>
+                    <?php
+                    $getDb = new connV2;
+                    $db = $getDb->getDb();
+
+                    $otherProductQuery = $db->query("SELECT * FROM product WHERE pd_id != '$productId' AND status = 1 AND pd_id != '19' ORDER BY pd_id DESC");
+
+                    foreach ($otherProductQuery as $pf) {
+                        $oProductName = $pf["pd_name"];
+                        $oProductIMG = $pf["pd_img"];
+                        $oProductPrice = $pf["pd_price"];
+                        $oProductStock = $pf["pd_stock"];
+                        $oProductLink = $pf["pd_link"];
+
+                        if ($checkUserLoginforPrice != true) { $oShowPrice = null; }else{ $oShowPrice = "Rp" . number_format($oProductPrice,0,"","."); }
+                        if ($oProductStock <= 0) { $oShowStock = 'Stok habis'; }else{ $oShowStock = 'Sisa ' . $oProductStock; }
+
+                        ?>
+                            <a href="view?product=<?= $oProductLink ?>">
+                        <div class="card">
+                            <img src="<?= $oProductIMG ?>">
+                            <div class="text-wrapper">
+                                <div id="title"><?= $oProductName ?></div>
+                                <div id="price"><?= $oShowPrice ?></div>
+                                <div class="rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <b>5</b>
+                                    <p><?= $oShowStock ?></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://ik.imagekit.io/samiha/2201e734935dc002df97de25789d4c04-2965287061_xiPNPvyJ3.jpg">
-                        <div class="text-wrapper">
-                            <div id="title">Kurma Khalas Saad</div>
-                            <div id="price">Rp40.000</div>
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <b>5</b>
-                                <p>Terjual 20</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://ik.imagekit.io/samiha/2201e734935dc002df97de25789d4c04-2965287061_xiPNPvyJ3.jpg">
-                        <div class="text-wrapper">
-                            <div id="title">Kurma Khalas Saad</div>
-                            <div id="price">Rp40.000</div>
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <b>5</b>
-                                <p>Terjual 20</p>
-                            </div>
-                        </div>
-                    </div>
+                    </a>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </div>
-    <script src="../js/productView.js"></script>
+    <?php include '../layout/footer.php'; ?>
+    <script src="../js/productView.js"></script><script src="../js/search.js"></script>
 </body>
 </html>
 <?php

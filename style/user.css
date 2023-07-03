@@ -1,22 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-::selection {
-    color: #F7F7F7;
-    background: #ECB365;
-}
-::-webkit-scrollbar-track{
-	border-radius: 10px;
-}
-
-::-webkit-scrollbar{
-	width: 10px;
-}
-
-::-webkit-scrollbar-thumb{
-	border-radius: 10px;
-	background-color: var(--card-color);
-}
-
 *{
     margin: 0;
     padding: 0;
@@ -35,11 +18,17 @@ body{
 .swal2-popup {
     font-size: 14px !important;
 }
-
+.phone-top-navbar{
+    display: none;
+}
+.phone-user-container{
+    display: none;
+}
 .container{
+    height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: 40px 0 0 0;
 }
 .ct-box{
     display: flex;
@@ -369,4 +358,213 @@ body{
 .sec2 button:hover{
     transition: 0.2s;
     background-color: rgba(255, 182, 72, 0.9);
+}
+
+/* toast sweetalert */
+.colored-toast.swal2-icon-success {
+    background-color: #a5dc86 !important;
+}
+
+.colored-toast.swal2-icon-error {
+    background-color: #f27474 !important;
+}
+
+.colored-toast.swal2-icon-warning {
+    background-color: #f8bb86 !important;
+}
+
+.colored-toast.swal2-icon-info {
+    background-color: #3fc3ee !important;
+    padding: 10px 20px;
+    margin: 0;
+    max-width: fit-content;
+}
+
+.colored-toast.swal2-icon-question {
+    background-color: #87adbd !important;
+}
+
+.colored-toast .swal2-title {
+    color: white;
+}
+
+.colored-toast .swal2-close {
+    color: white;
+}
+
+.colored-toast .swal2-html-container {
+    color: white;
+}
+/* end toast sweetalert */
+
+/* for phone size */
+@media (max-width: 1130px) {
+    .navbar{
+        display: none !important;
+    }
+    .container{
+        display: none;
+    }
+    .phone-top-navbar{
+        height: 60px;
+        display: flex;
+        align-items: center;
+        background-color: #111117;
+        padding: 15px;
+    }
+    #phone-back-nav{
+        display: flex;
+        gap: 15px;
+        cursor: pointer;
+        align-items: center;
+    }
+    .phone-top-navbar i{
+        color: #FFB648;
+    }
+    .phone-top-navbar span{
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFB648;
+    }
+    .phone-user-container{
+        display: flex;
+        width: 100%;
+    }
+    .phone-user-mt-ct-wrapper{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .phone-user-ct{
+        width: 500px;
+        display: flex;
+    }
+    .phone-user-ct-wrapper{
+        width: 100%;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+    .phone-user-top-sec{
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+    .phone-user-top-sec-left{
+        display: flex;
+    }
+    #phone-user-image{
+        width: 64px;
+        height: 64px;
+    }
+    #phone-user-image img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .phone-user-top-sec-right{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    #phone-user-fn{
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+    }
+    #phone-user-ph{
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+    }
+    #phone-user-email{
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+    }
+    .phone-user-btm-sec{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .phone-user-account-menu{
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        background-color: #23232F;
+        border-radius: 8px;
+        gap: 20px;
+    }
+    #phone-user-tx-list{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    #phone-user-text-row{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    #phone-user-text-row-title{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+    }
+    #phone-user-text-row-sub{
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        color: #C2C2C5;
+    }
+    #phone-user-address{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    #phone-user-cart{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    #phone-user-wishlist{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    #phone-user-support{
+        cursor: pointer;
+        display: flex;
+        gap: 10px;
+        background-color: #23232F;
+        padding: 10px 15px;
+        border-radius: 5px;
+        align-items: center;
+    }
+    #phone-support-btn{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+    }
+    #phone-user-logout{
+        cursor: pointer;
+        display: flex;
+        gap: 10px;
+        padding: 10px 15px;
+        align-items: center;
+        border-radius: 5px;
+        background-color: #23232F;
+    }
+    #phone-logout-btn{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+    }    
 }

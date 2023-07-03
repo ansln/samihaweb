@@ -1,0 +1,16 @@
+::selection {
+    color: white;
+    background: #ECB365;
+}
+::-webkit-scrollbar-track{
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar{
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	background-color: var(--card-color);
+}

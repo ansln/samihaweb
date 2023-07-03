@@ -12,6 +12,8 @@ use Firebase\JWT\SignatureInvalidException;
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 
+error_reporting(0);
+
 $getSc = new userSession;
 $secretKey = $getSc->generateSecretKey();
 

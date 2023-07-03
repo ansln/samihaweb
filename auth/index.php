@@ -1,6 +1,7 @@
 <?php
 
 require_once "conn.php";
+require_once "conn2.php";
 require_once "functions/index.php";
 require_once "comp/vendor/autoload.php";
 require_once "session.php";
@@ -8,15 +9,27 @@ require_once "session.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// LOGIN
-	$email = $_POST["email"];
+if (isset($_COOKIE['SMHSESS'])) {
+	//userTokenCheck
+	$ck = $_COOKIE['SMHSESS'];
+	$cookie = $db->real_escape_string($ck);
+	$userSession = mysqli_query($db, "SELECT * FROM user_session WHERE user_jwt='$cookie'");
+	$userSessionCheck = mysqli_num_rows($userSession);
+	
+	if ($userSessionCheck >= 1) {
+		//fetch email from user
+		$userEmail = $session->generateEmail();
+		$userData = mysqli_query($db, "SELECT * FROM user WHERE u_email='$userEmail' OR u_phone='$userEmail'");
+		$userDataCheck = mysqli_num_rows($userData);
+		if ($userDataCheck >= 1) {
+			?><script>window.location.replace("./");</script><?php
+		}else{ ?><script>window.location.replace("logout.php");</script><?php }
+	}else{ ?><script>window.location.replace("logout.php");</script><?php }
+}else{
+	$getEmail = $_POST["email"];
 	$pwd = $_POST["password"];
-
 	$password = sP($pwd);
+	$email = sanitize($getEmail);
 	$password = md5($password);
 
 	$data = mysqli_query($db, "SELECT * FROM user WHERE u_email='$email' AND u_password='$password' OR u_phone='$email' AND u_password='$password'");
@@ -25,7 +38,7 @@ error_reporting(E_ALL);
 	if($check > 0){
 		$getSc = new userSession;
 		$cookie = $getSc->userAuth($email); //create user session
-		setcookie("SMHSESS", $cookie);
+		setcookie("SMHSESS", $cookie, time()+10800);
 
 		//fetch token to decode
 		$token = $getSc->jwtToken;
@@ -68,7 +81,7 @@ error_reporting(E_ALL);
 
 				// Prepare the SQL Statements to Insert User Login Time
 				$insertLogin_SQL = "INSERT INTO user_log VALUES(NULL, '$userId', '$time', '$date', ' ', ' ', '$ip', '$browser')";
-				$sessionQuery = "INSERT INTO user_session VALUES(NULL, '$userSession', $userId, '$token', '')";
+				$sessionQuery = "INSERT INTO user_session VALUES(NULL, '$userSession', $userId, '$token', '', 'login', '')";
 				mysqli_query($db, $insertLogin_SQL);
 				mysqli_query($db, $sessionQuery);
 			}
@@ -78,9 +91,18 @@ error_reporting(E_ALL);
 	}else{
 		header("location: /shop/login.php?err=?");
 	}
+}
 
 function sP($value){ //prevent xss attack
 	return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+}
+
+function sanitize($value){
+	$getDb = new connection;
+	$db = $getDb->getDb();
+	$firstSanitize = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+	$sanitizeClear = $db->real_escape_string($firstSanitize);
+	return $sanitizeClear;
 }
 
 ?>

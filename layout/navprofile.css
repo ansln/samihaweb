@@ -1,0 +1,208 @@
+ /* navbar section */
+ .navbar{
+    background-color: #111117;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    position: sticky;
+    width: 100%;
+    height: 75px;
+    z-index: 999;
+    gap: 10px;
+}
+#main-logo-wrapper{
+    min-width: 128px;
+    height: 56px;
+}
+#main-logo{
+    max-width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+#main-logo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#search-bar{
+    width: 100%;
+    height: 30px;
+}
+#sb-wrapper{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #1F1F27;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#sb-wrapper > *{
+    color: #FFB648;
+}
+#sb-wrapper input{
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: #1F1F27;
+    border-radius: 5px;
+}
+::placeholder{
+    font-size: 12px;
+}
+#sb-wrapper i{
+    font-size: 14px;
+    padding: 0 10px;
+}
+#cart-btn{
+    cursor: pointer;
+    padding: 0 0 0 25px;
+    position: relative;
+    border: none;
+    background-color: transparent;
+    font-size: 12px;
+}
+#cart-btn::before{
+    content: attr(data-count);
+    position: absolute;
+    top: -0.75em;
+    right: -0.75em;
+    width: 1em;
+    height: 1em;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: red;
+    color: #F7F7F7;
+}
+#cart-btn i{
+    color: #FFB648;
+    font-size: 16px !important;
+}
+#notif-btn{
+    padding: 0 0 0 5px;
+    cursor: pointer;
+}
+#notif-btn i{
+    color: #FFB648;
+}
+#msg-btn{
+    cursor: pointer;
+    padding: 0 25px 0 5px;
+    border-right: 2px solid #2D303E;
+}
+#msg-btn i{
+    color: #FFB648;
+}
+#profile-pict{
+    min-width: 36px;
+    height: 36px;
+    cursor: pointer;
+    margin: 0 15px 0 10px;
+}
+#profile-pict img{
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    object-fit: cover;
+}
+#reg-log-btn{
+    display: flex;
+}
+.login-btn{
+    border: 1px solid #1F1F27;
+    background-color: transparent;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    border-radius: 5px;
+}
+.reg-btn{
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 8px 18px;
+    background-color: #1F1F27;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+}
+/* end navbar section */
+@media (max-width: 768px) {
+    .product-text-sec{
+        max-width: 100%;
+    }
+    .ct-banner{
+        padding: 25px 0 0 0;
+        gap: 10px;
+    }
+    .promotion-slide-wrapper{
+        height: 100px;
+    }
+    .banner-notif-wrapper{
+        height: 100px;
+    }
+    .swiper-button-next i{
+        display: none;
+    }
+    .swiper-button-prev i{
+        display: none;
+    }
+    .swiper-pagination-bullet{
+        display: none;
+    }
+    .card-wrapper{
+        flex-direction: column;
+        padding: 0 20px;
+        gap: 25px;
+    }
+    .card-wrapper > *{
+        flex-basis: 100%;
+    }
+    #product-image{
+        max-width: 100%;
+    }
+    #cart-btn{
+        display: none;
+    }
+    #notif-btn{
+        display: none;
+    }
+    #msg-btn{
+        display: none;
+    }
+}
+@media (max-width: 550px) {
+    #search-bar{
+        display: none;
+    }
+    #reg-log-btn{
+        display: flex;
+        gap: 10px;
+    }
+    #main-logo-wrapper{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media (max-width: 425px) {
+    #pt-child1{
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+    }
+    #pt-child2{
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

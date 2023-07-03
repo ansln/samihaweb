@@ -67,7 +67,6 @@
                 header("location:/shop/");
             }
     ?>
-        <small>© 2022 | Samiha</small>
         </div>
     </div>
 </body>

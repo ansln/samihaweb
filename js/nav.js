@@ -1,0 +1,9 @@
+$("#main-logo").click(function(){
+    window.location.replace("../");
+});
+$("#cart-btn").click(function(){
+    window.location.replace("../cart/");
+});
+$("#profile-pict").click(function(){
+    window.location.replace("../user/");
+});

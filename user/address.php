@@ -1,11 +1,12 @@
 <?php
 
 require_once 'conn.php';
-// require_once '../auth/functions/index.php';
 require_once '../auth/comp/vendor/autoload.php';
 require_once '../auth/session.php';
+require_once "../auth/addV2.php";
 
 $get = new userSession;
+$address = new addressFunctionV2;
 
 if ($_COOKIE['SMHSESS'] == "") {
     header("location: ../");
@@ -56,6 +57,7 @@ if ($_COOKIE['SMHSESS'] == "") {
                                 while($uAd = $userAddressQuery->fetch_object()){
                 
                                     //FETCH USER ADDRESS DETAIL
+                                    $userAddressId = $uAd->userAddressUID;
                                     $useraddressLabel = $uAd->u_addressLabel;
                                     $userRecipient = $uAd->u_recName;
                                     $userPhone = $uAd->u_phone;
@@ -81,67 +83,80 @@ if ($_COOKIE['SMHSESS'] == "") {
                                         <b><?= $userAddressMix ?></b>
                                     </div>
                                     <div class="btm-box">
-                                        <button>Ubah Alamat</button>
-                                        <a href=""><i class="fa-solid fa-trash"></i> hapus</a>
+                                        <form action="" method="post"><input type="hidden" value="<?= $userAddressId ?>" name="uid"><button type="submit" name="changeAddress">Ubah Alamat</button></form>
+                                        <form action="" method="post"><input type="hidden" value="<?= $userAddressId ?>" name="uid"><button type="submit" name="deleteAddress" id="deleteAddressBtn"><i class="fa-solid fa-trash"></i> hapus</button></form>
                                     </div>
                                 </div>
                                 <div class="wrapper-box-right">
                                     <?php
                                     if ($userAddresStatus == 0) { //CHECK IF DEFAULT ADDRES OR NOT
-                                        ?><button>Pilih alamat</button><?php
+                                        ?><form action="" method="post"><input type="hidden" value="<?= $userAddressId ?>" name="uid"><button type="submit" name="chooseAddress">Pilih Alamat</button></form><?php
                                     }else{
                                         ?><i class="fa-solid fa-check"></i><?php
                                     }
                                     ?>
                                 </div>
-                            </div>
-            <?php
+                            </div><?php
                         }
                     }
-            ?>
-                    </div>
-            <?php
+            ?></div><?php
         }
     }
         if (isset($_GET["add"])) { //add address
             ?>
                 <div class="modal-container">
-                    <div class="top-container">
-                        <div class="wrapper">
-                            <div class="ct-add">
-                                <div class="box-add">
-                                    <div class="box-add-title">
-                                        <h2>Informasi Alamat Lengkap</h2>
-                                        <a href="address"><i class="fa-solid fa-xmark"></i></a>
+                    <div class="add-as-top-container">
+                        <div class="add-as-top-ct-wrapper">
+                            <div class="add-as-content">
+                                <div class="add-as-content-wrapper">
+                                    <div class="add-as-top-row">
+                                        <div id="add-as-title">Informasi Alamat Lengkap</div>
+                                        <i class="fa-solid fa-xmark"></i>
                                     </div>
-                                    <form action="" method="post" autocomplete="off">
-                                        <div class="add-content">
+                                    <div class="add-as-form-ct">
+                                        <form action="" method="post" autocomplete="off" class="add-as-form-wrapper">
                                             <input type="text" placeholder="Nama Penerima" name="recipientName">
                                             <input type="text" placeholder="No. Telepon" name="phoneNumber">
-                                            <input type="text" placeholder="Label/Alamat" name="addressLabel">
+                                            <input type="text" placeholder="Label Alamat" name="addressLabel">
                                             <div class="wrapper-ct-address">
-                                                <input type="text" placeholder="Tulis Nama Kota / Kecamatan / Kode Pos">
+                                                <input id="findCityEtcInput" type="text" placeholder="Tulis Nama Kota / Kecamatan / Kode Pos">
                                                 <div class="autocom-box"></div>
                                                 <input type="hidden" id="userAddressInput" name="addressCityEtc" value="">
                                             </div>
                                             <textarea placeholder="Alamat Lengkap" name="fullAddress"></textarea>
                                             <button type="submit" name="submit">Simpan Alamat</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                    <?php
+                </div>
+                <?php
         }
         ?>
         <script src="../js/addressFetch.js"></script>
-        </body>
-        </html>
-        <?php
-    if(isset($_POST["submit"])){
+        <script src="../js/nav.js"></script>
+    </body>
+    </html>
+    <?php
+    if (isset($_POST["chooseAddress"])) {
+
+        $addressIdChoose = $_POST["uid"];
+        $address->updatePrimaryAddress($addressIdChoose);
+
+    }elseif (isset($_POST["changeAddress"])) {
+
+        $addressIdChange = $_POST["uid"];
+        $address->changeAddress($addressIdChange);
+
+    }elseif (isset($_POST["deleteAddress"])) {
+
+        $addressIdDel = $_POST["uid"];
+        $address->deleteAddress($addressIdDel);
+
+    }elseif (isset($_POST["submit"])){
         if(isset($_POST["recipientName"]) != ""){
             error_reporting(0);
             include "../auth/addAddrAuth.php";

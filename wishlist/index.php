@@ -18,10 +18,10 @@ require "../auth/session.php";
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Samiha Dates - Wishlist</title>
-                <link rel="stylesheet" href="../style/wishlist.css"><link rel="stylesheet" href="../layout/nav.css">
+                <title>Samiha - Wishlist</title>
+                <link rel="stylesheet" href="../style/wishlist.css"><link rel="stylesheet" href="../style/scrollselection.css"><link rel="stylesheet" href="../layout/nav.css"><link rel="stylesheet" href="../layout/footer.css">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-                <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script><script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
+                <script src="../js/jquery-3.6.0.min.js"></script><script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script><script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script>
             </head>
             <body>
         <?php
@@ -32,24 +32,23 @@ require "../auth/session.php";
                 $userId = $u_fetch->id;
                 $wishlistQuery = $db->query("SELECT * FROM wishlist WHERE userId=$userId ORDER BY id DESC");
                 $cartQuery = $db->query("SELECT * FROM cart WHERE userId=$userId");
+                $check = mysqli_num_rows($wishlistQuery);
                 include "../layout/navwish.php";
-
                 ?>
                 <div class="container">
                     <div class="ct-wishlist">
-
+                        <?php
+                        if ($check >= 1) { ?>
                         <div class="title">
                             <h2>Wishlist</h2>
                         </div>
-
                         <div class="width-wrap">
                     <?php
 //check user wishlist
-                $check = mysqli_num_rows($wishlistQuery);
-                if($check < 1){
+                }else{
                     ?>
                     <div class="col">
-                        <img src="../assets/img/find2.png">
+                        <div id="img-ws-wrapper"><img src="../assets/etc/empty_wishlist.svg"></div>
                         <b>Wishlist kamu masih kosong</b>
                         <p>Yuk cari produk yang kamu suka</p>
                         <div class="tst">
@@ -119,8 +118,7 @@ require "../auth/session.php";
 
                                 $addToCartQuery = "INSERT INTO cart VALUES(NULL, '$uid_cart', '$userId', '$productIdCart', 1)";
                                 mysqli_query($db, $addToCartQuery);
-                                ?>
-                                <script>
+                                ?><script>
                                     Swal.fire({
                                         toast: true,
                                         position: 'top-end',
@@ -134,8 +132,7 @@ require "../auth/session.php";
                                     setTimeout(function(){
                                         window.location = "/shop/wishlist";
                                     }, 2000);
-                                </script>
-                                <?php
+                                </script><?php
                             }
                         }
                     }
@@ -153,7 +150,7 @@ require "../auth/session.php";
 
                                 $productIdCartMore = $pc_fetch->pd_id;
 
-                                $moreAddToCartQuery = $db->query("UPDATE cart SET qty=qty+1 WHERE userId=$userId AND productId=$productIdCartMore");
+                                $moreAddToCartQuery = $db->query("UPDATE cart SET qty = qty+1 WHERE userId = '$userId' AND productId = '$productIdCartMore'");
                                 ?>
                                 <script>
                                     Swal.fire({
@@ -171,19 +168,19 @@ require "../auth/session.php";
                                     }, 2000);
                                 </script>
                                 <?php
+                                error_reporting(0);
                                 mysqli_query($db, $moreAddToCartQuery);
                             }
                         }
                     }
-//delete wishlist validation
-                if(isset($_POST['deleteWishlist'])){
-                    $wishKey = $db->real_escape_string($_POST['uid']);
-
+                    //delete wishlist validation
+                    if(isset($_POST['deleteWishlist'])){
+                        $wishKey = $db->real_escape_string($_POST['uid']);
+                        
                         // Prepare a delete statement
                         $wishlistDeleteQuery = $db->query("DELETE FROM wishlist WHERE uid='$wishKey'");
-            
-                        ?>
-                        <script>
+                        
+                        ?><script>
                             Swal.fire({
                                 toast: true,
                                 position: 'top-end',
@@ -197,17 +194,18 @@ require "../auth/session.php";
                             setTimeout(function(){
                                 window.location = "/shop/wishlist";
                             }, 2000);
-                        </script>
-                        <?php
+                            </script><?php
+                        error_reporting(0);
                         mysqli_query($db, $wishlistDeleteQuery);
-                }
+                    }
             }
         }
     ?>              </div>
                 </div>
             </div>
         </div>
-    
+        <?php //include '../layout/footer.php'; ?>
+    <script src="../js/nav.js"></script>
     </body>
     </html>
     <?php

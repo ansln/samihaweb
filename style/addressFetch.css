@@ -1,37 +1,23 @@
 .wrapper-ct-address{
+    display: flex;
+    flex-direction: column;
     width: 100%;
     background-color: #111117;
     border-radius: 5px;
     font-weight: 500;
     font-size: 12px;
     line-height: 15px;
-    margin: 0 0 20px 0;
-}
-.wrapper-ct-address input{
-    transition: 0.3s;
-    width: 100%;
-    background-color: #111117;
-    border: none;
-    border-radius: 5px;
-    padding: 0 0 0 10px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-}
-.wrapper-ct-address input:focus{
-    transition: 0.2s ease-in-out;
-    border: 1px solid #DD9F43;
+    /* margin: 0 0 20px 0; */
 }
 .wrapper-ct-address .autocom-box{
     padding: 0;
-    margin: -10px;
+    margin: 0;
     overflow-y: auto;
     opacity: 0;
     pointer-events: none;
 }
 .wrapper-ct-address.active .autocom-box{
-    margin: -15px 0 0 0;
-    padding: 5px;
+    /* padding: 10px; */
     opacity: 1;
     pointer-events: auto;
 }

@@ -36,6 +36,9 @@ $(document).ready(function(){
             searchWrapper.classList.remove("active");
         }
     });
+    $(".fa-xmark").click(function(){
+        window.location.replace("address");
+    });
 });
 
 document.addEventListener("keyup", e =>{

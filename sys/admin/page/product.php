@@ -1,5 +1,7 @@
 <?php
-    require_once '../auth/conn.php';
+    require_once '../auth/user/conn.php';
+    $getDb = new connection;
+    $db = $getDb->getDb();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +25,7 @@
                     $productCategory = $r->pd_category;
                     $productStatus = $r->status;
                 ?>
-                <a href="edit/?id=<?= $productIdRand ?>">
+                <a href="edit/index?id=<?= $productIdRand ?>">
                 <div class="card">
                     <div class="card-left">
                         <img src="<?= $productImg ?>">

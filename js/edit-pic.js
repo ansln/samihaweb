@@ -9,9 +9,28 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $('#form').on('submit', function(e){
+    $("#editPicBtn").click(function (e) { 
         e.preventDefault();
 
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            icon: 'info',
+            iconColor: 'white',
+            timer: 3000,
+            customClass: {
+                popup: 'colored-toast'
+            },
+            title: 'Fitur ini tidak tersedia untuk akun demo',
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            showConfirmButton: false
+        })
+    });
+
+    $('#form').on('submit', function(e){
+        e.preventDefault();
         
         if (!$("#file").val()) {
             alert("Please select a file to upload!");

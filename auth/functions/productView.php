@@ -314,7 +314,7 @@ class cartFunction extends userFunction{
             $wrand = rand(10,100);
             $uid_cart = "ct_" . $wrand . "_" . rand();
 
-            $addToCartQuery = "INSERT INTO cart VALUES(NULL, '$uid_cart', '$userId', '$productId', +1)";
+            $addToCartQuery = "INSERT INTO cart VALUES(NULL, '$uid_cart', '$userId', '$productId', 0)";
             ?>
             <script>
                 Swal.fire({

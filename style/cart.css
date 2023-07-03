@@ -75,6 +75,16 @@ body{
     display: flex;
     justify-content: space-between;
 }
+.container-right-price h5{
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+.container-right-price h6{
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
 .card{
     display: flex;
     flex-direction: column;
@@ -148,19 +158,65 @@ span{
     padding: 5px;
 }
 .col{
+    width: 100%;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     display: flex;
     flex-direction: column;
+    gap: 5px;
+}
+.col #top-title{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+}
+.col #sub-title{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
 }
 .col img{
     width: 250px;
     height: 250px;
     object-fit: cover;
 }
-.col button{
-    height: 30px;
-    padding: 5px;
+.col .tst{
+    width: 50%;
+    padding: 10px 0 0 0;
+}
+.col .tst button{
+    transition: 0.3s;
+    background-color: #FFB648;
+    padding: 8px;
     border-radius: 5px;
     margin-top: 5px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+}
+.col .tst button:hover{
+    background-color: rgba(255, 182, 72, 0.9);
+}
+@media (max-width: 720px) {
+    .container{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .container > *{
+        flex-basis: 100%;
+    }
+    .container-left{
+        width: 100%;
+    }
+    .container-right{
+        width: 100%;
+        padding: 15px 0 0 0;
+        margin: 0;
+    }
+    .card-bottom{
+        margin: 0;
+        justify-content: unset;
+    }
 }

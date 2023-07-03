@@ -9,15 +9,23 @@ use Firebase\JWT\JWT;
 
 date_default_timezone_set("Asia/Jakarta");
 if (isset($_POST['userEmail'])) {
+    include 'conn.php';
+    //sanitize email
     $userEmail = $_POST['userEmail'];
+    $userEmailSanitize = sanitize($userEmail);
+    $userEmailClear = $db->real_escape_string($userEmailSanitize);
     
-    generateToken($userEmail); //generate token and post to db
+    generateToken($userEmailClear); //generate token and post to db
 }else{
     header('Location: ../err.html');
 }
 
 function generateToken($userEmail){
     include 'conn.php';
+
+    //sanitize email
+    $userEmailSanitize = sanitize($userEmail);
+    $userEmailClear = $db->real_escape_string($userEmailSanitize);
     
     //secret key
     $firstKey = base64_encode('SAMIHAKEY');
@@ -41,14 +49,14 @@ function generateToken($userEmail){
     $jwt = JWT::encode($payload, $secretKey, 'HS256');
     
     // send to db
-    $fetchEmailData = $db->query("SELECT * FROM user WHERE u_email = '$userEmail'");
+    $fetchEmailData = $db->query("SELECT * FROM user WHERE u_email = '$userEmailClear'");
     $dataCheck = mysqli_num_rows($fetchEmailData);
     if ($dataCheck > 0) {
         if($fetchEmailData->num_rows){
             while($r = $fetchEmailData->fetch_object()){
                 $userId = $r->id;
                 $fetchEmail = $r->u_email;
-                $link = "http://localhost/shop/reset-password/confirm?token=" . $jwt;
+                $link = "https://samiha.id/shop/reset-password/confirm?token=" . $jwt;
                 $insertTokenDb = "INSERT INTO user_password_reset VALUES(NULL, '$userId', '', '', '', '$jwt')";
                 mysqli_query($db, $insertTokenDb);
                 getEmailStatus($fetchEmail, $link);
@@ -74,24 +82,30 @@ function generateToken($userEmail){
 }
 
 function sendUserEmail($userEmail, $userLink){
+    include 'conn.php';
+
+    //email sanitize
+    $userEmailSanitize = sanitize($userEmail);
+    $userEmailClear = $db->real_escape_string($userEmailSanitize);
+
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = 'smtp.hostinger.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'pijeee07@gmail.com';
-        $mail->Password   = 'hhfzktggadvrtyuu';
+        $mail->Username   = 'no-reply@samiha.id';
+        $mail->Password   = 'Samiha@123';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
-    
+
         //Recipients
-        $mail->setFrom('support@jmuv.my.id', 'Samiha Support');
-        $mail->addAddress($userEmail);
+        $mail->setFrom('no-reply@samiha.id', 'Samiha');
+        $mail->addAddress($userEmailClear);
     
         //Content
         $mail->isHTML(true);
-        $mail->Subject = 'Email Verification';
-        $mail->Body    = '<b>Halo,</b><br><p>Anda telah meminta mengatur ulang kata sandi untuk akun Samiha yang terkait dengan email ' . $userEmail . '</p><p>Untuk mengatur ulang kata sandi anda, silahkan klik link dibawah ini:</p><a href="' . $userLink . '">' . $userLink . '</a><br><p>Link dan token anda akan expired dalam waktu 1 jam setelah email ini terkirim, jika ingin mengatur ulang kata sandi lagi silahkan klik link dibawah ini:</p><a href="https:/google.com/">https:/google.com/</a><br><p><b>Jika kamu merasa tidak melakukan request ini, abaikan email ini.</b></p><p>Jika kamu butuh bantuan support silahkan hubungi support.</p><p>Terimakasih,</p><p>Samiha Team</p>';
+        $mail->Subject = 'Password Reset';
+        $mail->Body    = '<b>Halo,</b><br><p>Anda telah meminta mengatur ulang kata sandi untuk akun Samiha yang terkait dengan email ' . $userEmailClear . '</p><p>Untuk mengatur ulang kata sandi anda, silahkan klik link dibawah ini:</p><a href="' . $userLink . '">' . $userLink . '</a><br><p>Link dan token anda akan expired dalam waktu 1 jam setelah email ini terkirim, jika ingin mengatur ulang kata sandi lagi silahkan klik link dibawah ini:</p><a href="https://samiha.id/shop/reset-password/">https://samiha.id/shop/reset-password</a><br><p><b>Jika kamu merasa tidak melakukan request ini, abaikan email ini.</b></p><p>Jika kamu butuh bantuan support silahkan hubungi support.</p><p>Terimakasih,</p><p>Samiha Team</p>';
     
         $mail->send();
     } catch (Exception $e) {
@@ -101,13 +115,17 @@ function sendUserEmail($userEmail, $userLink){
 
 function getEmailStatus($userEmail, $userLink){
     include 'conn.php';
-    $getUserEmail = $userEmail;
+
+    //email sanitize
+    $userEmailSanitize = sanitize($userEmail);
+    $userEmailClear = $db->real_escape_string($userEmailSanitize);
+
     $getUserLink = $userLink;
-    $fetchEmailData = $db->query("SELECT * FROM user WHERE u_email = '$getUserEmail'");
+    $fetchEmailData = $db->query("SELECT * FROM user WHERE u_email = '$userEmailClear'");
     $dataCheck = mysqli_num_rows($fetchEmailData);
     
     if ($dataCheck > 0) {
-        sendUserEmail($getUserEmail, $getUserLink);
+        sendUserEmail($userEmailClear, $getUserLink);
         ?><script>window.location.replace("../reset-password/ver?sent");</script><?php
     }else{
         ?><script>
@@ -126,4 +144,8 @@ function getEmailStatus($userEmail, $userLink){
             }, 2000);
         </script><?php
     }
+}
+
+function sanitize($value){
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }

@@ -1,6 +1,11 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'comp/vendor/autoload.php';
+require_once 'conn2.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -12,6 +17,9 @@ class userSession{
     protected $getUserSessionId;
 
     private function getEmail(){
+        $get = new connection;
+        $db = $get->getDb();
+
         if (isset($_COOKIE['SMHSESS'])) {
             $userCookie = $_COOKIE['SMHSESS'];
             //get secretKey
@@ -19,10 +27,17 @@ class userSession{
             $secretKey = $getSc->generateSecretKey();
 
             $decode = JWT::decode($userCookie, new Key($secretKey, 'HS256'));
-            return $this->getUserEmail = $decode->userEmail;
+            $userEmail = $decode->userEmail;
+            $sanitizeEmail = $this->sanitize($userEmail);
+            $userEmailClear = $db->real_escape_string($sanitizeEmail);
+            return $userEmailClear;
         }else{
-            ?><script>window.location.replace("../logout.php");</script><?php
+            ?><script>window.location.replace("../");</script><?php
         }
+    }
+
+    private function sanitize($value){
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
 
     public function generateSecretKey(){
@@ -52,6 +67,28 @@ class userSession{
         $jwt = JWT::encode($payload, $secretKey, 'HS256');
         $this->jwtToken = $jwt;
         return $this->jwtToken;
+    }
+
+    private function token2($email){
+        //get secretKey
+        $secretKey = $this->generateSecretKey();
+
+        //generate sessionId
+        $str = rand();
+        $result = md5($str);
+        $userSessionId = $result;
+
+        $payload = [
+            'sessionId' => $userSessionId,
+            'userEmail' => $email
+        ];
+        
+        $jwt = JWT::encode($payload, $secretKey, 'HS256');
+        return $jwt;
+    }
+
+    public function getToken2($email){
+        return $this->token2($email);
     }
 
     public function generateToken(){

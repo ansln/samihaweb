@@ -2,6 +2,7 @@
 
 require_once "conn.php";
 require_once "comp/vendor/autoload.php";
+?><script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script><style> .swal2-popup { font-size: 14px; }</style><?php
 
 $get = new userSession;
 
@@ -28,14 +29,15 @@ if ($_COOKIE['SMHSESS'] == "") {
             if ($userRecipientName != "") {
                 $queryData = "INSERT INTO user_address VALUES(NULL, $userId, '$userRecipientName', '$userPhoneNumber', '$userAddressLabel', '', '', '', '', '', '$userDistrictEtc', '$userPostalCode', '$userFullAddress', 0, 'primary')";
                 mysqli_query($db, $queryData);
-                ?><script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                <script type="text/javascript">
+                ?><script type="text/javascript">
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
                         icon: 'success',
-                        title: 'Address successfully added',
-                        timer: 2000,
+                        title: 'Alamat berhasil ditambahkan',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
                         showConfirmButton: false
                     })
                     setTimeout(function(){
@@ -43,18 +45,19 @@ if ($_COOKIE['SMHSESS'] == "") {
                     }, 2000);
                 </script><?php
             }else{
-                ?><script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                <script type="text/javascript">
+                ?><script type="text/javascript">
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
                         icon: 'error',
-                        title: `Address can't be added`,
-                        timer: 2000,
+                        title: 'Alamat tidak berhasil ditambahkan',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
                         showConfirmButton: false
                     })
                     setTimeout(function(){
-                        window.location = " ./address";
+                        window.location = "./address";
                     }, 2000);
                 </script><?php
             }

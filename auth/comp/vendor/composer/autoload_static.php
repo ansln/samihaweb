@@ -21,6 +21,10 @@ class ComposerStaticInit79bc4a3bef3a50413594e6a381c02820
             'Psr\\Http\\Client\\' => 16,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'M' => 
+        array (
+            'Midtrans\\' => 9,
+        ),
         'I' => 
         array (
             'ImageKit\\' => 9,
@@ -54,6 +58,10 @@ class ComposerStaticInit79bc4a3bef3a50413594e6a381c02820
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Midtrans\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans',
         ),
         'ImageKit\\' => 
         array (

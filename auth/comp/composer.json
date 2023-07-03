@@ -2,6 +2,7 @@
     "require": {
         "firebase/php-jwt": "^6.3",
         "imagekit/imagekit": "^3.0",
-        "phpmailer/phpmailer": "^6.6"
+        "phpmailer/phpmailer": "^6.6",
+        "midtrans/midtrans-php": "^2.5"
     }
 }

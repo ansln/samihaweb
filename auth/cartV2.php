@@ -8,6 +8,7 @@ class cartManagement{
         return $userEmail;
     }
 
+    //setter getter
     public function generateUserEmail(){
         return $this->getUserEmail();
     }

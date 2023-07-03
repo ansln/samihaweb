@@ -1,30 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Samiha Dates - Login</title>
-    <meta charset="UTF-8">
-    <meta name="description" content="GoGo Mushroom">
-    <meta name="keywords" content="samihadates.com, SamihaDates, samiha dates, samihadates">
-    <meta name="author" content="ansln">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <div class="container">
-        <div class="title">
-            <a href="/shop">Samiha Dates</a>
-        </div>
-        <div class="ct-center">
-        <?php
-            error_reporting(0);
-            session_start();
+<?php
 
-            if($_SESSION['status']!="admin-login"){
-                ?>
-                <!-- LOGIN FORM -->
-                <div class="title-login">
-                    <h4>Login</h4>
-                </div>
-                <?php
+require_once 'auth/user/session.php';
+require_once 'auth/user/loginV2.php';
+require '../../auth/comp/vendor/autoload.php';
+
+$session = new adminSession;
+$loginAuth = new loginManagement;
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $loginAuth->loginAuth($email, $password);
+}
+
+if (isset($_COOKIE["ADMSESS"])) {
+    ?><script>window.location.replace('./');</script><?php
+}else{
+    ?><!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <title>Samiha - Admin</title>
+            <meta charset="UTF-8">
+            <meta name="description" content="Samiha">
+            <meta name="author" content="ansln">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="style/login-adm.css">
+        </head>
+        <body>
+            <div class="container">
+                <div class="ct-wrapper">
+                    <!-- LOGIN FORM -->
+                    <div class="title-login">
+                        <h4>Login Admin</h4>
+                    </div>
+                    <?php
                         if(isset($_GET['err'])){
                             if($_GET['err'] == "blank"){
                                 echo "<span>Email/Phone and Password must be field!</span>";
@@ -36,26 +45,20 @@
                                 echo "<span>Something went wrong!</span>";
                             }
                         }
-                ?>
-                <div class="ct-login">
-                    <div class="login">
-                    <form method="POST" action="auth/">
-                        <div class="column">
-                            <input type="text" id="fname" name="email" autocomplete="off" placeholder="Email or Phone Number">
-                            <input type="password" id="lname" name="password" autocomplete="off" placeholder="Password">
-                        </div>
-                            <button value="Login" type="submit">Login</button>
-                        </div>
-                    </form>
-                    <div class="note"><a href="reset-password/"><b>Lupa kata sandi?</b></a></div>
+                    ?>
+                    <div class="ct-login">
+                        <form method="POST">
+                            <div class="wrap-login">
+                                <input type="text" id="fname" name="email" autocomplete="off" placeholder="Email or Phone Number">
+                                <input type="password" id="lname" name="password" autocomplete="off" placeholder="Password">
+                                <button value="Login" type="submit" name="submit">Login</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            <?php
-            }else{
-                header("location:index.php");
-            }
-        ?>
-        </div>
-    </div>        
-</body>
-</html>
+            </div>        
+        </body>
+    </html>
+    <?php
+}
+        

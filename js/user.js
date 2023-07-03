@@ -1,4 +1,3 @@
-// XHR FUNCTION
 const resetPasswordBtn = document.getElementById("resetPasswordBtn");
 resetPasswordBtn.addEventListener('click', goResetPage);
 const addressPageBtn = document.getElementById("addressPageBtn");
@@ -17,6 +16,30 @@ function userLogout() {
 }
 
 $(document).ready(function(){
+    $(".fa-angle-left").click(function(){
+        window.location.replace("../");
+    });
+    $("#main-logo").click(function(){
+        window.location.replace("../");
+    });
+    $("#cart-btn").click(function(){
+        window.location.replace("../cart/");
+    });
+    $("#phone-user-tx-list").click(function(){
+        window.location.replace("../order-list/");
+    });
+    $("#phone-user-address").click(function(){
+        window.location.replace("../user/address");
+    });
+    $("#phone-user-cart").click(function(){
+        window.location.replace("../cart/");
+    });
+    $("#phone-user-wishlist").click(function(){
+        window.location.replace("../wishlist/");
+    });
+    $("#phone-user-logout").click(function(){
+        window.location.replace("../logout.php");
+    });
     $("#getName").on("submit", function(e){
         e.preventDefault();
         

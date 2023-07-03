@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: Inter, sans-serif;
+    outline: none;
+}
+.container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ct-wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* content */
+.container-input{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(49,53,59,0.12);
+}
+.title-ct-input{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    padding: 5px;
+    border-bottom: 1px solid #DDDDDD;
+}
+.ct-upload{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    gap: 10px;
+    margin: 0 0 10px 0;
+    /* border: 1px solid #DDDDDD; */
+    border-radius: 5px;
+}
+#title-img-up{
+    font-size: 14px;
+    font-weight: 600;
+}
+.ct-image{
+    display: flex;
+    gap: 15px;
+}
+.ct-upload [type="file"]{
+    display: none;
+}
+.wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.wrap b{
+    margin: 5px 0 0 0;
+    font-size: 12px;
+    font-weight: 500;
+    color:#b8b9ba;
+}
+#upload-icon1, #upload-icon2, #upload-icon3, #upload-icon4, #upload-icon5{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+#display_image1{
+    transition: 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 140px;
+    border: 2px dashed #DBDEE2;
+    background-position: center;
+    background-size: cover;
+    border-radius: 5px;
+}
+@media screen and (max-width: 455px) {
+    #display_image1{
+        width: 70px;
+        height: 70px;
+    }
+}
+#display_image1:hover{
+    transition: 0.2s;
+    border: 2px dashed #b8b9ba;
+}
+label{
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: rgba(49, 53, 59, 0.68);
+}
+i{
+    color: rgba(49, 53, 59, 0.68);
+}
+
+/* product input */
+.product-input-ct{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+.cl-comp{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+.cl-comp b{
+    font-size: 14px;
+    font-weight: 600;
+}
+.cl-comp input{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+}
+.cl-comp select{
+    width: 100px;
+    height: 30px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+}
+.row{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+.row b{
+    padding: 5px;
+    color: #1B1C1E;
+    background-color: #D1D1D1;
+    border-top: 0.7px solid #DDDDDD;
+    border-bottom: 0.5px solid #DDDDDD;
+    border-radius: 4px 0 0 4px;
+}
+.row input{
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+.cl-comp-desc{
+    gap: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.cl-comp-desc b{
+    font-size: 14px;
+    font-weight: 600;
+}
+.form-btn{
+    margin: 15px 0 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.form-btn #submitBtn{
+    transition: 0.2s;
+    width: 200px;
+    height: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+.form-btn #submitBtn:hover{
+    transition: 0.2s;
+    background-color: #DDDDDD;
+}
+.batal a{
+    text-decoration: none;
+    color: #1B1C1E;;
+}
+.batal button{
+    transition: 0.2s;
+    margin: 5px;
+    width: 175px;
+    height: 30px;
+    color: #1B1C1E;
+    background-color: transparent;
+    border: 1px solid #FFC3C3;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+}
+.batal button:hover{
+    transition: 0.2s;
+    border: 1px solid #f72538;
+}
+small{
+    font-weight: 500;
+    color: #8D8D8F;
+}
+input:focus{
+    border: 1px solid #FFB648;
+}

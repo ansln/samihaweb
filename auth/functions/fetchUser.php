@@ -28,6 +28,12 @@ class userFetch{
 }
 
 class fetchUserData extends userFetch{
+    
+    private function getDb(){
+        $get = new connection;
+        $callDb = $get->getDb();
+        return $callDb;
+    }
 
     private function getUsername(){
         $getEmailDb = $this->getDbQuery();
@@ -61,6 +67,32 @@ class fetchUserData extends userFetch{
             }
         }
     }
+    
+    private function getUserCart(){
+        $db = $this->getDb();
+        $getEmailDb = $this->getDbQuery();
+        $qty = 0;
+        $userId = 0;
+
+        foreach ($getEmailDb as $user) {
+            $getId = $user["id"];
+            $userId = $getId;
+        }
+
+        $userCartQuery = mysqli_query($db, "SELECT * FROM cart WHERE userId = '$userId'");
+
+        foreach ($userCartQuery as $cart) {
+            $productQty = $cart["qty"];
+            $qty+=$productQty;
+        }
+
+        if ($qty <= 0) {
+            $qty = 0;
+        }else{
+            return $qty;
+        }
+
+    }
 
     //setter getter
     public function username(){
@@ -73,6 +105,10 @@ class fetchUserData extends userFetch{
     
     public function userPict(){
         return $this->getUserPict();
+    }
+    
+    public function userCart(){
+        return $this->getUserCart();
     }
 }
 

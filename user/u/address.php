@@ -1,4 +1,5 @@
 <?php
+
 $countries = "ID";
 $type = "single";
 
@@ -30,6 +31,6 @@ if (isset($_POST['input'])) {
         ?><script>var getData = [<?php foreach ($decodeResult as $row) { echo '"' . $row["name"] . '",'; } ?>];</script><?php
     }
 }else{
-    header('Location: https://google.com/');
+    header('Location: ./');
 }
 ?>

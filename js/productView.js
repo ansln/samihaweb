@@ -58,6 +58,16 @@ window.addEventListener('resize', changeHeight);
 
 $(document).ready(function(){
 
+    $("#main-logo").click(function(){
+        window.location.replace("../");
+    });
+    $("#cart-btn").click(function(){
+        window.location.replace("../cart/");
+    });
+    $("#profile-pict").click(function(){
+        window.location.replace("../user/");
+    });
+
     //add to wishlist function 
     $('#wishadd').on('click', function(e){
         e.preventDefault();
@@ -106,7 +116,7 @@ $(document).ready(function(){
     $('#chatBtn').on('click', function(e){
         e.preventDefault();
         
-        window.location.replace("../chat");
+        window.location.reload();
     });
     
     //share button function
@@ -146,5 +156,4 @@ $(document).ready(function(){
                 }
             });
         });
-        
 });

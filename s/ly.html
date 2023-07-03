@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>layout</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+            color: #F7F7F7;
+            outline: none;
+        }
+        body {
+            overflow-x: hidden;
+            background-color: #181820;
+        }
+        .container{
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+        .ct-wrapper{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 5px;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:hover{
+            opacity: 0.9;
+        }
+        .content{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            gap: 5px;
+        }
+        .card{
+            transition: 0.3s;
+            display: flex;
+            position: relative;
+            border-radius: 5px;
+            gap: 15px;
+            background-color: #1F1F27;
+        }
+        .card:hover{
+            transition: 0.2s;
+            opacity: 0.9;
+        }
+        .card:hover .text h3{
+            transition: 0.2s;
+            color: #FFB648;
+        }
+        .text{
+            display: flex;
+            align-items: center;
+        }
+        .text h3{
+            color: #F7F7F7BF;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+        }
+        .img{
+            display: flex;
+        }
+        .content .img img{  
+            width: 50px;
+            height: 50px;
+            border-radius: 5px 0px 0px 5px;
+        }
+        .link{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ct-wrapper">
+            <div class="content">
+
+                <div class="card">
+                    <div class="img">
+                        <img src="https://ik.imagekit.io/samiha/2201e734935dc002df97de25789d4c04-2965287061_xiPNPvyJ3.jpg">
+                    </div>
+                    <div class="text">
+                        <h3>Samiha Kurma Ajwa 500gr</h3>
+                    </div>
+                    <a href="https://www.w3docs.com/"><span class="link"></span></a>
+                </div>
+                <div class="card">
+                    <div class="img">
+                        <img src="https://ik.imagekit.io/samiha/data-15854311_lO76_ukzG3.jpeg">
+                    </div>
+                    <div class="text">
+                        <h3>Samiha Kurma Khalas Saad 500gr</h3>
+                    </div>
+                    <a href="https://www.w3docs.com/"><span class="link"></span></a>
+                </div>
+                <div class="card">
+                    <div class="img">
+                        <img src="https://ik.imagekit.io/samiha/data-1494974126_NNmyU-vwp.jpeg">
+                    </div>
+                    <div class="text">
+                        <h3>Samiha Kurma Sukari 500gr</h3>
+                    </div>
+                    <a href="https://www.w3docs.com/"><span class="link"></span></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

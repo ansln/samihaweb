@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar</title>
+    <script src="https://kit.fontawesome.com/3f3c1cf592.js" crossorigin="anonymous"></script><script src="../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../style/cssImages.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            color: #F7F7F7;
+        }
+        body {
+            background-color: #181820;
+        }
+        .container{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .wrapper{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .wrap{
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+        }
+        #searchBox{
+            width: 100%;
+            border: none;
+            background-color: #111117;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .box{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            background-color: #111117;
+        }
+        .show{
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            margin: 35px 0 0 0;
+            z-index: 999;
+        }
+        .show.active{
+            display: flex;
+            align-items: center;
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        #product-link a{
+            color: #C1C1C3;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        #product-link a:hover{
+            color: #FFB648;
+        }
+
+        .content{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            background-color: #111117;
+        }
+        .card{
+            transition: 0.3s;
+            display: flex;
+            position: relative;
+            border-radius: 5px;
+            gap: 15px;
+            background-color: #1F1F27;
+        }
+        .card:hover{
+            transition: 0.2s;
+            opacity: 0.8;
+        }
+        .img{
+            display: flex;
+        }
+        .img img{  
+            width: 50px;
+            height: 50px;
+            border-radius: 5px 0px 0px 5px;
+        }
+        .text{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .text h3{
+            color: #F7F7F7;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+        }
+        .text h4{
+            text-align: right;
+            color: #FFB648;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+        }
+        .link{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="wrapper">
+            <div class="box">
+                <form action="search" method="GET" enctype="multipart/form-data" id="search" autocomplete="off">
+                    <div class="wrap">
+                        <input type="text" name="q" value="" id="searchBox" placeholder="Cari produk">
+                    </div>
+                </form>
+            </div>
+            <div class="show"><div class="content"></div></div>
+        </div>
+    </div>
+
+</body>
+<script>
+    $(document).ready(function(){
+        $("#searchBox").keyup(function(){
+
+            var input  = $(this).val();
+
+            if (input != ""){            
+                $.ajax({
+                    url:"search?q=" + input,
+                    method:"POST",
+                    data:{input:input},
+                    cache:false,
+                    success:function(data){
+                        $(".content").html(data);
+                        $(".show").addClass("active");
+                    }
+                });
+            }else if(input === ""){
+                $(".show").removeClass("active");
+            }
+        });
+    });
+</script>
+</html>

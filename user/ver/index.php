@@ -42,26 +42,22 @@ $session = new userSession;
                                     $mail = new PHPMailer(true);
                             
                                     try {
-                                        // $mail->SMTPDebug = 2;
                                         $mail->isSMTP();
-                                        // $mail->Host       = 'mail.jmuv.my.id';
-                                        $mail->Host       = 'smtp.gmail.com';
+                                        $mail->Host       = 'smtp.hostinger.com';
                                         $mail->SMTPAuth   = true;
-                                        $mail->Username   = 'pijeee07@gmail.com';
-                                        $mail->Password   = 'hhfzktggadvrtyuu';
-                                        // $mail->Username   = 'support@jmuv.my.id';
-                                        // $mail->Password   = 'Antonius123.';
+                                        $mail->Username   = 'no-reply@samiha.id';
+                                        $mail->Password   = 'Samiha@123';
                                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                                         $mail->Port       = 465;
                             
                                         //Recipients
-                                        $mail->setFrom('support@jmuv.my.id', 'Samiha Dates Support');
+                                        $mail->setFrom('no-reply@samiha.id', 'Samiha');
                                         $mail->addAddress($userEmail);
                             
                                         //Content
                                         $mail->isHTML(true);
                                         $mail->Subject = 'Email Verification';
-                                        $mail->Body    = '<h4>Your verification code</h4>' . $verification_code;
+                                        $mail->Body    = '<b>Halo!</b><br><p>Kami menerima request verifikasi email dari akun anda.</p>' . '<p>Kode Verifikasi: ' . $verification_code . '</p>' . '<br><br><small><b><i>please do not reply to this email.</b></i></small>';
                             
                                         $mail->send();
                                         header("location: ?to=next-ver");

@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(0);
-$db = new mysqli("localhost","root","","shop");
+$db = new mysqli("localhost","u362596482_samiha_shop","!_Samih@!db_Password_Shop_135790_TEMP!","u362596482_shop");
 
 if (!($st = $db->prepare("SELECT * FROM user WHERE id = ?"))) {
   die( "Can't prepare the statement :(" );

@@ -283,6 +283,12 @@ small{
     filter: blur(3px);
     z-index: 0;
 }
+@media only screen and (max-width:1370px) {
+    .bg-pohon{
+        transition: 0.3s;
+        top: 25%;
+    }
+}
 @media only screen and (max-width:380px) {
     .bg-pohon{
         transition: 0.3s;

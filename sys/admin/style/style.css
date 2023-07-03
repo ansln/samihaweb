@@ -11,10 +11,6 @@
     --text-white-color: #DFDFDE;
 }
 
-::selection {
-    color: white;
-    background: #bfa267;
-}
 ::-webkit-scrollbar-track{
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -22,14 +18,15 @@
 
 ::-webkit-scrollbar{
     width: 5px;
+    height: 8px;
     background-color: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb{
-    border-radius: 5px;
-    background-color: rgba(216, 183, 116, 0.75);
+    background-color: #21212B;
 }
 .container{
+    width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -60,10 +57,11 @@
     height: 100vh;
 }
 .box{
-    width: 250px;
+    min-width: fit-content;
     display: flex;
     flex-direction: column;
     background-color: var(--main-bg-color);
+    gap: 10px;
 }
 .side-link{
     display: flex;
@@ -74,16 +72,15 @@
     display: flex;
     align-items: center;
     border-radius: 3px;
-    padding: 5px;
+    padding: 10px;
     cursor: pointer;
+}
+.link-icon i{
+    color: #f7f7f7;
 }
 .side-link a{
     color: var(--text-white-color);
     text-decoration: none;
-}
-.link-icon img{
-    width: 24px;
-    height: 24px;
 }
 .link-icon button{
     width: 100%;
@@ -143,3 +140,56 @@
     height: 300px;
     object-fit: cover;
 }
+
+/* LOADING CONTENT */
+.loader-container{
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+.loader-container.hidden{
+  animation: fadeOut 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  100%{
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid red;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+.loader2 {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #FFB648;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+  
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 
+/* END LOADING CONTENT */

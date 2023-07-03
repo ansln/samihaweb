@@ -1,24 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-::selection {
-    color: white;
-    background: #bfa267;
-}
-::-webkit-scrollbar-track{
-	border-radius: 10px;
-	background-color: #FFFFFF;
-}
-
-::-webkit-scrollbar{
-	width: 10px;
-	background-color: #FFFFFF;
-}
-
-::-webkit-scrollbar-thumb{
-	border-radius: 10px;
-	background-color: rgba(216, 183, 116, 0.75);
-}
-
 *{
     margin: 0;
     padding: 0;
@@ -97,20 +78,50 @@ body{
 
 /* START EMPTY */
 .col{
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 5px;
+    padding: 30px 0 0 0;
 }
-.col img{
-    width: 250px;
-    height: 250px;
+.col #top-title{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+}
+.col #sub-title{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+}
+#img-ws-wrapper{
+    max-width: 15%;
+    padding: 0 0 30px 0;
+}
+#img-ws-wrapper img{
+    width: 100%;
     object-fit: cover;
 }
-.col b{
-    margin-bottom: 5px;
+.col .tst{
+    width: 50%;
+    padding: 10px 0 0 0;
 }
-.col p{
-    margin-bottom: 5px;
+.col .tst button{
+    transition: 0.3s;
+    background-color: #FFB648;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+}
+.col .tst button:hover{
+    background-color: rgba(255, 182, 72, 0.9);
 }
 /* AFTER EMPTY */
 
@@ -216,4 +227,19 @@ body{
 
 .wishlist button i:hover{
     color: RGBA(250, 112, 112, 0.5);
+}
+
+@media (max-width: 430px) {
+    .max-width{
+        width: 100%;
+        flex-direction: column;
+        flex-wrap: unset;
+        gap: 15px;
+    }
+    .max-width > *{
+        flex-basis: 100%;
+    }
+    .card{
+        width: 100%;
+    }
 }
