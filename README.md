@@ -1,5 +1,5 @@
 # SAMIHA
-Samiha is an online store platform that focuses on selling dates
+Samiha is an Web E-Commerce Platform that focuses on selling dates
 
 Tools that i used:<br />
 UI/UX - Figma<br />
